@@ -1,0 +1,232 @@
+<?xml version="1.0" ?>
+<TestName>
+    <!--This is cmd configure file-->
+    <mhw_vdbox_vdenc_g12_tglhp>
+        <VDENC_64B_Aligned_Lower_Address_CMD>
+            <DW0 Address="30" Reserved0="1"/>
+        </VDENC_64B_Aligned_Lower_Address_CMD>
+        <VDENC_64B_Aligned_Upper_Address_CMD>
+            <DW0 AddressUpperDword="14" Reserved16="16"/>
+        </VDENC_64B_Aligned_Upper_Address_CMD>
+        <VDENC_Surface_Control_Bits_CMD>
+            <DW0 ArbitrationPriorityControl="8" CacheSelect="12" CompressionType="10" EncryptedData="0" MemoryCompressionEnable="9" MemoryObjectControlState="5" Reserved11="11" Reserved13="13" Reserved15="17"/>
+        </VDENC_Surface_Control_Bits_CMD>
+        <VDENC_Sub_Mb_Pred_Mode_CMD>
+            <DW0 Submbpredmode0="0" Submbpredmode1="3" Submbpredmode2="5" Submbpredmode3="6"/>
+        </VDENC_Sub_Mb_Pred_Mode_CMD>
+        <VDENC_Block_8x8_4_CMD>
+            <DW0 Block8X80="3" Block8X81="4" Block8X82="8" Block8X83="12"/>
+        </VDENC_Block_8x8_4_CMD>
+        <VDENC_Delta_MV_XY_CMD>
+            <DW0 X0="7" Y0="25"/>
+            <DW1 X1="2" Y1="20"/>
+            <DW2 X2="12" Y2="27"/>
+            <DW3 X3="12" Y3="26"/>
+        </VDENC_Delta_MV_XY_CMD>
+        <VDENC_Colocated_MV_Picture_CMD/>
+        <VDENC_Down_Scaled_Reference_Picture_CMD/>
+        <VDENC_FRAME_BASED_STATISTICS_STREAMOUT_CMD>
+            <DW0/>
+            <DW1 IntraIso16X16MbCount="5" IntraMbCount="18"/>
+            <DW2 IntraIso4X4MbCount="4" IntraIso8X8MbCount="30"/>
+            <DW3 SegmentMapCount0="11" SegmentMapCount1="28"/>
+            <DW4 SegmentMapCount2="4" SegmentMapCount3="20"/>
+            <DW17/>
+            <DW18/>
+            <DW19 SumBottomHalfPopulationOccurrences="16" SumTopHalfPopulationOccurrences="8"/>
+        </VDENC_FRAME_BASED_STATISTICS_STREAMOUT_CMD>
+        <VDENC_Mode_StreamOut_Data_CMD>
+            <DW0 MbX="7" MbY="15" MinimalDistortion="23"/>
+            <DW1 Interrawdistortion="24" Skiprawdistortion="15"/>
+            <DW2 Bestintrarawdistortion="10" CoefficientClampOccurred="22" ConformanceViolation="23" IntermbmodeChromaPredictionMode="17" Intrambflag="20" Intrambmode="18" Lastmbflag="21" Submbpredmode="29"/>
+            <DW3 Lumaintramode0="5" Lumaintramode1="25"/>
+            <DW4 Lumaintramode2="4" Lumaintramode3="26"/>
+            <DW13 BwdRefids="28" FwdRefids="9"/>
+            <DW14 MbBitCount="16" MbHeaderCount="31" QpY="5"/>
+            <DW15 BlockCbp="25" MbType="4" Skipmbflag="31"/>
+        </VDENC_Mode_StreamOut_Data_CMD>
+        <VDENC_Original_Uncompressed_Picture_CMD/>
+        <VDENC_Reference_Picture_CMD/>
+        <VDENC_Row_Store_Scratch_Buffer_Picture_CMD/>
+        <VDENC_Statistics_Streamout_CMD/>
+        <VDENC_Streamin_Data_Picture_CMD/>
+        <VDENC_STREAMIN_STATE_CMD>
+            <DW0 Forceintra="8" Forceskip="9" RegionOfInterestRoiSelection="3" Reserved10="12"/>
+            <DW1 Maxsizeinword="23" Qpprimey="3" Reserved56="30" Targetsizeinword="11"/>
+            <DW2 FwdPredictorX="12" FwdPredictorY="21"/>
+            <DW3 BwdPredictorX="9" BwdPredictorY="26"/>
+            <DW4 BwdRefid0="6" FwdRefid0="2" Reserved136="12"/>
+        </VDENC_STREAMIN_STATE_CMD>
+        <VDENC_HEVC_VP9_FRAME_BASED_STATISTICS_STREAMOUT_CMD>
+            <DW0/>
+            <DW1 IntraCuCountNormalized="17" Reserved52="20"/>
+            <DW2 NonSkipInterCuCountNormalized="1" Reserved84="31"/>
+            <DW3 Reserved116="30" SegmentMapCount0="1"/>
+            <DW4 Reserved148="21" SegmentMapCount1="13"/>
+            <DW5 Reserved180="24" SegmentMapCount2="15"/>
+            <DW6 Reserved212="22" SegmentMapCount3="3"/>
+            <DW7 MvXGlobalMeSample025X25X="7" MvYGlobalMeSample025X25X="28"/>
+            <DW8 MvXGlobalMeSample125X25X="1" MvYGlobalMeSample125X25X="28"/>
+            <DW9 MvXGlobalMeSample225X25X="3" MvYGlobalMeSample225X25X="16"/>
+            <DW10 MvXGlobalMeSample325X25X="0" MvYGlobalMeSample325X25X="29"/>
+            <DW11 MvXGlobalMeSample425X25X="6" MvYGlobalMeSample425X25X="17"/>
+            <DW12 MvXGlobalMeSample525X25X="7" MvYGlobalMeSample525X25X="25"/>
+            <DW13 MvXGlobalMeSample625X25X="5" MvYGlobalMeSample625X25X="31"/>
+            <DW14 MvXGlobalMeSample725X25X="15" MvYGlobalMeSample725X25X="20"/>
+            <DW15 MvXGlobalMeSample825X25X="4" MvYGlobalMeSample825X25X="21"/>
+            <DW16 RefidForGlobalmeSample0="1" RefidForGlobalmeSample18="16" Reserved530="22"/>
+            <DW17 PaletteCuCountNormalized="15" Reserved564="29"/>
+            <DW18 IbcCuCountNormalized="1" Reserved596="25"/>
+            <DW19/>
+            <DW20/>
+            <DW21/>
+            <DW22 PositionOfTimerExpiration="12" Reserved721="17" TimerExpireStatus="16"/>
+            <DW23 LocationOfPanic="6" PanicDetected="16" Reserved753="25"/>
+            <DW29/>
+            <DW30/>
+            <DW31 SumBottomHalfPopulationOccurrences="25" SumTopHalfPopulationOccurrences="4"/>
+        </VDENC_HEVC_VP9_FRAME_BASED_STATISTICS_STREAMOUT_CMD>
+        <VDENC_HEVC_VP9_STREAMIN_STATE_CMD>
+            <DW0 Maxcusize="11" Maxtusize="8" Numimepredictors="12" PaletteDisable="22" PuType32X32016X1603="28" Reserved16="19" Reserved21="21" Reserved23="23" Roi32X32016X1603="4"/>
+            <DW1 ForceMvX32X32016X160="6" ForceMvY32X32016X160="25"/>
+            <DW2 ForceMvX32X32016X161="4" ForceMvY32X32016X161="25"/>
+            <DW3 ForceMvX32X32016X162="6" ForceMvY32X32016X162="19"/>
+            <DW4 ForceMvX32X32016X163="7" ForceMvY32X32016X163="25"/>
+            <DW5/>
+            <DW6 ForceMvRefidx32X32016X160="2" ForceMvRefidx32X32016X1613="14" Nummergecandidatecu16X16="23" Nummergecandidatecu32X32="24" Nummergecandidatecu64X64="31" Nummergecandidatecu8X8="18"/>
+            <DW7 ForceRefidEnable32X320="23" ImePredictorRefidSelect0332X320="26" QpEn32X32016X1603="18" Reserved245="22" Segid32X32016X1603Vp9Only="1" SegidEnable="20"/>
+            <DW8 ImePredictor0X32X320="8" ImePredictor0Y32X320="25"/>
+            <DW9 ImePredictor0X32X321="7" ImePredictor0Y32X321="23"/>
+            <DW10 ImePredictor0X32X322="4" ImePredictor0Y32X322="22"/>
+            <DW11 ImePredictor0X32X323="14" ImePredictor0Y32X323="31"/>
+            <DW12 ImePredictor0Refidx32X320="1" ImePredictor13Refidx32X3213="6" Reserved400="29"/>
+            <DW13 Panicmodelcuthreshold="8" Reserved432="31"/>
+            <DW14 ForceQpValue16X160="3" ForceQpValue16X161="11" ForceQpValue16X162="22" ForceQpValue16X163="24"/>
+            <DW15/>
+        </VDENC_HEVC_VP9_STREAMIN_STATE_CMD>
+        <VDENC_Surface_State_Fields_CMD>
+            <DW0 ColorSpaceSelection="3" CrVCbUPixelOffsetVDirection="1" Height="30" SurfaceFormatByteSwizzle="2" Width="4"/>
+            <DW1 ChromaDownsampleFilterControl="21" HalfPitchForChroma="2" Reserved55="25" SurfaceFormat="29" SurfacePitch="3" TileWalk="0" TiledSurface="1"/>
+            <DW2 Reserved79="15" Reserved95="31" XOffsetForUCb="27" YOffsetForUCb="5"/>
+            <DW3 Reserved125="31" XOffsetForVCr="24" YOffsetForVCr="10"/>
+        </VDENC_Surface_State_Fields_CMD>
+        <VD_PIPELINE_FLUSH_CMD>
+            <DW0 CommandType="29" DwordCountN="1" MediaCommandOpcode="23" Pipeline="27" Reserved12="12" Subopcodea="21" Subopcodeb="20"/>
+            <DW1 AvpPipelineCommandFlush="20" AvpPipelineDone="5" HevcPipelineCommandFlush="16" HevcPipelineDone="0" MflPipelineCommandFlush="18" MflPipelineDone="2" MfxPipelineCommandFlush="19" MfxPipelineDone="3" Reserved37="11" Reserved52="29" VdCommandMessageParserDone="4" VdencPipelineCommandFlush="17" VdencPipelineDone="1"/>
+        </VD_PIPELINE_FLUSH_CMD>
+        <VDENC_WEIGHTSOFFSETS_STATE_CMD>
+            <DW0 CommandType="31" DwLength="3" Opcode="24" Pipeline="28" Reserved12="13" Subopa="22" Subopb="17"/>
+            <DW1 OffsetForwardReference0="8" OffsetForwardReference1="31" WeightsForwardReference0="4" WeightsForwardReference1="18"/>
+            <DW2 OffsetBackwardReference0="25" OffsetForwardReference2="11" WeightsBackwardReference0="22" WeightsForwardReference2="3"/>
+        </VDENC_WEIGHTSOFFSETS_STATE_CMD>
+        <VDENC_DS_REF_SURFACE_STATE_CMD>
+            <DW0 CommandType="29" DwordLength="7" Opcode="24" Pipeline="28" Reserved12="15" Subopa="22" Subopb="16"/>
+            <DW1/>
+        </VDENC_DS_REF_SURFACE_STATE_CMD>
+        <VDENC_AVC_IMG_STATE_CMD>
+            <DW0 CommandType="29" DwordLength="1" Opcode="24" Pipeline="28" Reserved12="13" Subopa="22" Subopb="17"/>
+            <DW1 BDirectWriteEnable="5" ImePredictorOverlapThreshold="12" LeftNeighborPixelMode="0" MacroblockSizeEstimatedScalingRatioForInter="30" MacroblockSizeEstimatedScalingRatioForIntra="20" PictureType="3" SubpelMode="7" Transform8X8Flag="4"/>
+            <DW2 BDirectReadEnable="13" BidirectionalWeight="19" HmeRefWindowSize="4" ImeLeftPredDep="7" ImePredictorLargeSearchWindow="12" InterSadAdjustment="15" IntraSadAdjustment="17" NumImePredictors="0" NumberOfFractionalCandidatesChecked="10" RdeChromaEnable="31" SubmacroblockPartitionMask="25"/>
+            <DW3 PictureHeightMinusOne="7" PictureWidth="26"/>
+            <DW4 AvcIntra16X16ModeMask="30" AvcIntra4X4ModeMask="4" AvcIntra8X8ModeMask="24" IntraChromaMask="13" IntraComputeType="27" LumaIntraPartitionMask="10" RdeIntraChromaSearch="25"/>
+            <DW5 BwdRefIdx0ReferencePicture="6" FwdRefIdx0ReferencePicture="0" FwdRefIdx1ReferencePicture="11" FwdRefIdx2ReferencePicture="19" NumberOfL0ReferencesMinusOne="20" NumberOfL1ReferencesMinusOne="27" RefIdxToReferencePictureNonDefaultEnable="31" Reserved172="13" Reserved188="30" TemporalBDirectMode="28"/>
+            <DW6 IntraRefreshEnableRollingIEnable="16" IntraRefreshMbPos="4" IntraRefreshMbSizeMinusOne="15" IntraRefreshMode="17" QpAdjustmentForRollingI="24" Reserved210="22"/>
+            <DW7 LargeMbSizeInWord="28" PanicModeMbThreshold="11" SmallMbSizeInWord="18"/>
+            <DW8 MaxHMvR="7" MaxVMvR="31"/>
+            <DW9 QpAdjustmentForShapeBestIntra16X16Winner="26" QpAdjustmentForShapeBestIntra4X4Winner="19" QpAdjustmentForShapeBestIntra8X8Winner="20" Reserved316="31" RoiQpAdjustmentForZone0="2" RoiQpAdjustmentForZone1="6" RoiQpAdjustmentForZone2="10" RoiQpAdjustmentForZone3="14"/>
+            <DW10 BestdistortionQpAdjustmentForZone0="3" BestdistortionQpAdjustmentForZone1="6" BestdistortionQpAdjustmentForZone2="9" BestdistortionQpAdjustmentForZone3="12" SadHaarThreshold0="19"/>
+            <DW11 SadHaarThreshold1="12" SadHaarThreshold2="22"/>
+            <DW12 InitialMacroblockBudgetForTransform4X4="21" MaxDeltaQp="27" MaxQp="14" MinQp="4" Reserved412="28"/>
+            <DW13 BwdPredictor1MvEnable="2" CoefficientClampEnable="9" FwdPredictor0MvEnable="1" LongtermReferenceFrameBwdRef0Indicator="10" MbLevelDeltaQpEnable="5" MbLevelQpEnable="3" MidpointSadHaar="16" Reserved424="8" Reserved427="11" RoiEnable="0" TargetSizeInWordsMbMaxSizeInWordsMbEnable="4" ToPIMEPredictorDisable="15" ToPRightIMEPredictorDisable="14" ZMVPredictorDisable="13" ZeroCbfInterCheckEn="7" ZeroCbfSkipCheckEn="6"/>
+            <DW14 CrePrefetchEnable="21" ForceIpcmMinQp="11" IntraTransform4X4Percentage="23" IpcmEnable="18" QpPrimeY="5" Reserved="20" Targetsizeinword="24" TrellisQuantEn="19" TrellisTableSel="17"/>
+            <DW15 IpcmZone0Qp="6" IpcmZone0Thr="27" TemporalBDirectScaleFactor="8"/>
+            <DW16 IpcmZone1Qp="6" IpcmZone1Thr="31" Reserved520="14"/>
+            <DW17 IpcmZone2Qp="0" IpcmZone2Thr="28" Reserved552="15"/>
+            <DW18 IpcmZone3Qp="0" IpcmZone3Thr="31" Reserved584="15"/>
+            <DW19 IpcmZone4Qp="6" IpcmZone4Thr="17" Reserved616="11"/>
+        </VDENC_AVC_IMG_STATE_CMD>
+        <VDENC_PIPE_BUF_ADDR_STATE_CMD>
+            <DW0 CommandType="31" DwordLength="1" Opcode="24" Pipeline="27" Reserved12="14" Subopa="21" Subopb="17"/>
+            <DW61/>
+        </VDENC_PIPE_BUF_ADDR_STATE_CMD>
+        <VDENC_PIPE_MODE_SELECT_CMD>
+            <DW0 CommandType="29" DwordLength="11" Opcode="23" Pipeline="27" Reserved12="15" Subopa="22" Subopb="20"/>
+            <DW1 BitDepth="14" Downscaled4XWriteDisable="11" Downscaled8XWriteDisable="10" FirstSecondaryChannelSelectionForRgbEncoding="24" FrameStatisticsStreamOutEnable="5" IsRandomAccess="18" OutputRangeControlAfterColorSpaceConversion="17" PakChromaSubSamplingType="16" PakThresholdCheckEnable="8" PrimaryChannelSelectionForRgbEncoding="22" Reserved51="19" Reserved58="29" RgbEncodingEnable="20" ScalabilityMode="4" StandardSelect="3" StreamingBufferConfig="27" TileReplayEnable="25" TlbPrefetchEnable="7" VdencPakObjCmdStreamOutEnable="6" VdencStreamInEnable="9"/>
+            <DW2 HmeRegionPreFetchenable="0" Hzshift32Minus1="9" LeftpreFetchatwraparound="3" NumVerticalReqMinus1="18" Numhzreqminus1="22" PreFetchOffsetForReferenceIn16PixelIncrement="25" Reserved76="12" Reserved92="31" Topprefetchenablemode="1" Verticalshift32Minus1="6"/>
+            <DW3 Hzshift32Minus1Src="10" Numhzreqminus1Src="21" Numverticalreqminus1Src="19" PreFetchoffsetforsource="24" Reserved108="14" Reserved98="3" SourceChromaTlbPreFetchenable="1" SourceLumaPackedDataTlbPreFetchenable="0" VerticalMotionVectoreLimit="31" Verticalshift32Minus1Src="4"/>
+            <DW4 AVCGammaPredictorMVreplication="20" Debugtilenum="10" Debugtilepassnum="0" GAMMAPredictorScaleFactor="16" GammaPredictor1Direction="26" GammaPredictor1Enable="27" GammaPredictor1RefIDX="25" GammaPredictor2Direction="30" GammaPredictor2Enable="31" GammaPredictor2RefIDX="28" PreENCPassEnable="22" PreENCpassBlockSize="18" PreEncpassIntraInterSADadjustmentbeforecompare="13" Reserved_143="15" Reserved_151="23" StreaminQPSurfaceEnable="21"/>
+            <DW5 CaptureMode="12" FrameNumber="1" HeadPointerUpdateAuto="10" HeadPtrUpdateIOSFDirect="16" ParallelCaptureAndEncodeSessionId="15" Reserved164="7" Reserved176="17" TailPointerReadFrequency="25"/>
+        </VDENC_PIPE_MODE_SELECT_CMD>
+        <VDENC_REF_SURFACE_STATE_CMD>
+            <DW0 CommandType="31" DwordLength="8" Opcode="23" Pipeline="28" Reserved12="13" Subopa="21" Subopb="16"/>
+            <DW1 Reserved="5" SurfaceId="2"/>
+        </VDENC_REF_SURFACE_STATE_CMD>
+        <VDENC_SRC_SURFACE_STATE_CMD>
+            <DW0 CommandType="29" DwordLength="1" Opcode="26" Pipeline="28" Reserved12="13" Subopa="21" Subopb="17"/>
+            <DW1/>
+        </VDENC_SRC_SURFACE_STATE_CMD>
+        <VDENC_WALKER_STATE_CMD>
+            <DW0 CommandType="30" Length="6" Opcode="26" Pipeline="28" Reserved12="15" Subopa="21" Subopb="19"/>
+            <DW1 FirstSuperSlice="28" MbLcuStartXPosition="22" MbLcuStartYPosition="8" Reserved41="14" Reserved57="25" Reserved61="29"/>
+            <DW2 NextsliceMbLcuStartXPosition="22" NextsliceMbStartYPosition="8" Reserved74="12" Reserved90="31"/>
+        </VDENC_WALKER_STATE_CMD>
+        <VDENC_CONTROL_STATE_CMD>
+            <DW0 CommandType="31" DwordLength="2" MediaInstructionCommand="18" MediaInstructionOpcode="25" PipelineType="27" Reserved12="12"/>
+            <DW1 Reserved32="0" Reserved34="14" VdencInitialization="1"/>
+        </VDENC_CONTROL_STATE_CMD>
+        <VDENC_AVC_COSTS_STATE_CMD>
+            <DW0 CommandType="30" DwordLength="3" Opcode="24" Pipeline="28" Reserved12="15" Subopa="22" Subopb="16"/>
+            <DW1_2 HmeMvCost0="6" HmeMvCost1="15" HmeMvCost2="16" HmeMvCost3="31" HmeMvCost4="2" HmeMvCost5="15" HmeMvCost6="17" HmeMvCost7="24"/>
+            <DW9/>
+            <DW10 Merge16X16Cost="28" Reserved320="12" Skip16X16Cost="21"/>
+            <DW11/>
+            <DW12 ModeInter16X16="9" ModeInter16X8="19" ModeInter8X4="4" ModeInter8X8="28"/>
+            <DW13 ModeInterBidir="14" RdChromaIntraModeCost="7" RefIdCost="19" SadChromaIntraModeCost="28"/>
+            <DW14 Reserved448="6" SadPenaltyForIntraNondc16X16PredMode="21" SadPenaltyForIntraNondc4X4PredMode="14" SadPenaltyForIntraNondc8X8PredMode="26"/>
+            <DW15 RdPenaltyForIntraDc4X4PredMode="15" RdPenaltyForIntraNondc16X16PredMode="17" RdPenaltyForIntraNondc8X8PredMode="25" Reserved480="4"/>
+            <DW16 Reserved512="1" Reserved536="29" SadIntraNonPredModeCost="20"/>
+            <DW17 ModeIntra16X16="18" ModeIntra4X4="9" ModeIntra8X8="29" RdModeIntraNonPred="4"/>
+            <DW18/>
+            <DW19 Reserved608="7" TuDepthCost0="10" TuDepthCost1="19" TuDepthCost2="30"/>
+            <DW20 IntraTu4X4CbfCost="6" IntraTu8X8CbfCost="14" Reserved656="28"/>
+            <DW21 InterTu4X4CbfCost="0" InterTu8X8CbfCost="8" Reserved688="23"/>
+            <DW22 RdQpLambda="11" Reserved729="29" SadQpLambda="24"/>
+        </VDENC_AVC_COSTS_STATE_CMD>
+        <VDENC_AVC_SLICE_STATE_CMD>
+            <DW0 CommandType="31" DwordLength="5" Opcode="24" Pipeline="28" Reserved12="13" Subopa="22" Subopb="18"/>
+            <DW1 Reserved32="26" RoundInter="4" RoundInterEnable="7" RoundIntra="1" RoundIntraEnable="3"/>
+            <DW2/>
+            <DW3 Log2WeightDenomLuma="0" Reserved99="18"/>
+        </VDENC_AVC_SLICE_STATE_CMD>
+        <VDENC_HEVC_VP9_TILE_SLICE_STATE_CMD>
+            <DW0 CommandType="29" DwordLength="1" Opcode="23" Pipeline="27" Reserved12="12" Subopa="21" Subopb="18"/>
+            <DW1/>
+            <DW2/>
+            <DW3 HevcVp9Log2WeightDenomLuma="5" Log2WeightDenomLuma="0" NumParEngine="10" Reserved103="7" Reserved107="13" Reserved113="18" Reserved99="3" TileNumber="29" TileRowStoreSelect="16"/>
+            <DW4 TileStartCtbX="30" TileStartCtbY="4"/>
+            <DW5 TileHeight="26" TileWidth="8"/>
+            <DW6 Reserved193="1" StreaminOffsetEnable="0" TileStreaminOffset="14"/>
+            <DW7 Reserved225="4" RowStoreOffsetEnable="0" TileRowstoreOffset="30"/>
+            <DW8 Reserved257="5" TileStreamoutOffset="9" TileStreamoutOffsetEnable="0"/>
+            <DW9 LcuStreamOutOffsetEnable="0" Reserved289="1" TileLcuStreamOutOffset="21"/>
+            <DW10/>
+            <DW11 DeltaQp="2" IntraFlatnessThresholdForIbc="16" Reserved370="26"/>
+            <DW12 ColoredDistanceMetric="24" GlobalCountMinus1="20" GrayscaleTest="17" Hashquant="2" IbcControl="28" PaletteModeEnable="26" PrimaryColorDifferenceThreshold="10" Reserved387="7" Reserved407="23" Reserved413="31"/>
+            <DW13 HashthresholdClass0Distance="23" HashthresholdClass1Distance="9" Reserved426="10" Reserved442="26"/>
+            <DW14 Hashguardband16X16="21" HashthresholdClass0Count="13" HashthresholdClass1Count="4" HashthresholdClass1Length="18" MaxEscapeBinsBy8="29" MaxEscapeBinsCheckEnable="31" Reserved454="6" Reserved462="14" Reserved471="23"/>
+            <DW15 EscapeThreshold="26" IntraFlatnessCheckThresholdForPlt="9" Reserved490="10"/>
+            <DW16 MaxRunComplexityMinus1Cu16X16="10" MaxRunComplexityMinus1Cu32X32="21" MaxRunComplexityMinus1Cu8X8="4" Reserved518="7" Reserved526="14" Reserved534="23" ReservedForAdaptiveChannelThreshold="25" StrictPalette16X16="30" StrictPalette32X32="31" StrictPalette8X8="29"/>
+            <DW17 CumulativeCuTileOffset="25" CumulativeCuTileOffsetEnable="0" Reserved545="2"/>
+            <DW18 PaletteStreamoutTileOffset="28" PaletteStreamoutTileOffsetEnable="0" Reserved577="2"/>
+            <DW19/>
+            <DW20/>
+            <DW21/>
+            <DW22/>
+            <DW23/>
+            <DW24/>
+            <DW25/>
+            <DW26/>
+            <DW27 Reserved15="1" StreaminQPOrQPdeltaOffset="20" StreaminQPOrQPdeltaOffsetEnable="0"/>
+        </VDENC_HEVC_VP9_TILE_SLICE_STATE_CMD>
+    </mhw_vdbox_vdenc_g12_tglhp>
+</TestName>
