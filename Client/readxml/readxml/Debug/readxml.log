@@ -1,0 +1,5 @@
+﻿  readxml.cpp
+c:\projects\github\autoultgen\cmd_validation\readxml\readxml\readxml.cpp(4): warning C4603: 'CMDFIELD': macro is not defined or definition is different after precompiled header use
+  c:\projects\github\autoultgen\cmd_validation\readxml\readxml\readxml.cpp(4): note: Add macro to precompiled header instead of defining here
+  c:\projects\github\autoultgen\cmd_validation\readxml\readxml\readxml.cpp(53): note: use of precompiled header
+c:\projects\github\autoultgen\cmd_validation\readxml\readxml\readxml.cpp(101): error C3863: array type 'pugi::char_t [100]' is not assignable
