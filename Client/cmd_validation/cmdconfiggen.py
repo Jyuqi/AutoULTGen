@@ -1,3 +1,5 @@
+# read xml file converted from .h and save into required format, as shown in config_xxx.xml
+
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import (
     Element, SubElement, tostring, XML, Comment
