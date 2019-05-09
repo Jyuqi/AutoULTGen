@@ -1,4 +1,6 @@
-﻿import lxml.etree as ET
+﻿##expand each cmd field, generat c++ code;
+
+import lxml.etree as ET
 
 def input():
     with open('input.txt', 'r') as fin:
@@ -31,6 +33,7 @@ def newclassname(name):
 def addfixed(lines, classname, cmdname):
     newcmdclassname = newclassname(cmdname)
     fixed_str = f"""
+#include <vector>
 class {newcmdclassname} : public gpucmditem<{classname}::{cmdname}>
 {{
 public:
@@ -38,7 +41,7 @@ public:
     {newcmdclassname}() : gpucmditem() {{}};
     ~{newcmdclassname}() {{}};
     bool initialize(char *testname);
-    bool validate();
+    std::vector validate();
     cmdtype m_reference;
     cmdtype m_fieldtovalidate;
 
@@ -82,9 +85,9 @@ bool {newcmdclassname}::initialize(char *testname)
 
                             ######validate part start
                         lines.append(f"""
-bool {newcmdclassname}::validate()
+std::vector {newcmdclassname}::validate()
 {{
-        """)
+        std::vector<bool> error_code;""")
                         for dw in cmd.xpath('//*[starts-with(local-name(), "DW")]'):
                             if dw.attrib:
                                 dwname = dw.tag
@@ -93,10 +96,24 @@ bool {newcmdclassname}::validate()
                                     lines.append(f"""
         if(m_fieldtovalidate && m_reference.{dwname}.{field} != xml1.getfield({testname}, {cmdname}, {dwname}, {field}))
         {{
-               report error;
-        }}   
+               error_code.push_back(false);
+        }}
+        else
+        {{
+               error_code.push_back(true);
+        }}
 """)
-                        lines.append('}\n')
+                        lines.append(f"""
+        //find false index
+        auto it = error_code.begin(), end = error_code.end();
+        for ( int index = 0; it != end; ++it, ++index)
+            if (*it == false)
+                error_index.push_back(index);
+        std::cout<<"error_index";
+        for (auto i : error_index)
+            std::cout << i << ' '<<std::endl;
+        return error_index;
+}}""")
                             ######validate part end
 #--------------------------------------------------------------------------------------------------------------------
 

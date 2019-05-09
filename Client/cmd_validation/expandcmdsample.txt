@@ -1,0 +1,5571 @@
+﻿#include <vector>
+class VdencPipeModeSelectCmd : public gpucmditem<mhw_vdbox_vdenc_g12_tglhp::VDENC_PIPE_MODE_SELECT_CMD>
+{
+public:
+    xml xml1;
+    VdencPipeModeSelectCmd() : gpucmditem() {};
+    ~VdencPipeModeSelectCmd() {};
+    bool initialize(char *testname);
+    std::vector validate();
+    cmdtype m_reference;
+    cmdtype m_fieldtovalidate;
+
+};
+
+
+bool VdencPipeModeSelectCmd::initialize(char *testname)
+{
+    //find the xml
+    xml<cmdtype> xml(&m_reference, &m_fieldtovalidate);
+    //read xml to configure the cmd memeber
+    xml1.readconfig(testname);
+}
+
+std::vector VdencPipeModeSelectCmd::validate()
+{
+        std::vector<bool> error_code;
+        if(m_fieldtovalidate && m_reference.DW0.Address != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Address))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.AddressUpperDword != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, AddressUpperDword))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.ArbitrationPriorityControl != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, ArbitrationPriorityControl))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CacheSelect != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CacheSelect))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CompressionType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CompressionType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.EncryptedData != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, EncryptedData))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MemoryCompressionEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MemoryCompressionEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MemoryObjectControlState != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MemoryObjectControlState))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved11 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved11))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved13 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved13))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved15 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved15))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Submbpredmode0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Submbpredmode0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Submbpredmode1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Submbpredmode1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Submbpredmode2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Submbpredmode2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Submbpredmode3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Submbpredmode3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Block8X80 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Block8X80))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Block8X81 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Block8X81))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Block8X82 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Block8X82))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Block8X83 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Block8X83))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.X0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, X0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Y0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Y0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.X1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, X1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Y1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Y1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.X2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, X2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Y2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Y2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.X3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, X3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Y3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Y3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.IntraIso16X16MbCount != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, IntraIso16X16MbCount))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.IntraMbCount != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, IntraMbCount))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.IntraIso4X4MbCount != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, IntraIso4X4MbCount))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.IntraIso8X8MbCount != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, IntraIso8X8MbCount))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.SegmentMapCount0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, SegmentMapCount0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.SegmentMapCount1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, SegmentMapCount1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.SegmentMapCount2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, SegmentMapCount2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.SegmentMapCount3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, SegmentMapCount3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.SumBottomHalfPopulationOccurrences != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, SumBottomHalfPopulationOccurrences))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.SumTopHalfPopulationOccurrences != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, SumTopHalfPopulationOccurrences))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MbX != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MbX))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MbY != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MbY))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MinimalDistortion != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MinimalDistortion))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Interrawdistortion != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Interrawdistortion))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Skiprawdistortion != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Skiprawdistortion))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Bestintrarawdistortion != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Bestintrarawdistortion))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.CoefficientClampOccurred != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, CoefficientClampOccurred))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.ConformanceViolation != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, ConformanceViolation))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.IntermbmodeChromaPredictionMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, IntermbmodeChromaPredictionMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Intrambflag != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Intrambflag))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Intrambmode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Intrambmode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Lastmbflag != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Lastmbflag))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Submbpredmode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Submbpredmode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Lumaintramode0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Lumaintramode0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Lumaintramode1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Lumaintramode1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Lumaintramode2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Lumaintramode2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Lumaintramode3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Lumaintramode3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.BwdRefids != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, BwdRefids))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.FwdRefids != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, FwdRefids))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.MbBitCount != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, MbBitCount))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.MbHeaderCount != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, MbHeaderCount))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.QpY != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, QpY))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.BlockCbp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, BlockCbp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.MbType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, MbType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.Skipmbflag != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, Skipmbflag))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Forceintra != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Forceintra))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Forceskip != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Forceskip))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.RegionOfInterestRoiSelection != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, RegionOfInterestRoiSelection))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved10 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved10))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Maxsizeinword != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Maxsizeinword))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Qpprimey != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Qpprimey))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved56 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved56))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Targetsizeinword != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Targetsizeinword))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.FwdPredictorX != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, FwdPredictorX))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.FwdPredictorY != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, FwdPredictorY))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.BwdPredictorX != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, BwdPredictorX))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.BwdPredictorY != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, BwdPredictorY))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.BwdRefid0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, BwdRefid0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.FwdRefid0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, FwdRefid0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Reserved136 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Reserved136))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.IntraCuCountNormalized != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, IntraCuCountNormalized))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved52 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved52))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.NonSkipInterCuCountNormalized != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, NonSkipInterCuCountNormalized))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Reserved84 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Reserved84))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved116 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved116))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.SegmentMapCount0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, SegmentMapCount0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Reserved148 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Reserved148))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.SegmentMapCount1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, SegmentMapCount1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.Reserved180 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, Reserved180))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.SegmentMapCount2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, SegmentMapCount2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.Reserved212 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, Reserved212))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.SegmentMapCount3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, SegmentMapCount3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.MvXGlobalMeSample025X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, MvXGlobalMeSample025X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.MvYGlobalMeSample025X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, MvYGlobalMeSample025X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.MvXGlobalMeSample125X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, MvXGlobalMeSample125X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.MvYGlobalMeSample125X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, MvYGlobalMeSample125X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.MvXGlobalMeSample225X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, MvXGlobalMeSample225X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.MvYGlobalMeSample225X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, MvYGlobalMeSample225X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.MvXGlobalMeSample325X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, MvXGlobalMeSample325X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.MvYGlobalMeSample325X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, MvYGlobalMeSample325X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.MvXGlobalMeSample425X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, MvXGlobalMeSample425X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.MvYGlobalMeSample425X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, MvYGlobalMeSample425X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.MvXGlobalMeSample525X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, MvXGlobalMeSample525X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.MvYGlobalMeSample525X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, MvYGlobalMeSample525X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.MvXGlobalMeSample625X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, MvXGlobalMeSample625X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.MvYGlobalMeSample625X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, MvYGlobalMeSample625X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.MvXGlobalMeSample725X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, MvXGlobalMeSample725X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.MvYGlobalMeSample725X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, MvYGlobalMeSample725X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.MvXGlobalMeSample825X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, MvXGlobalMeSample825X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.MvYGlobalMeSample825X25X != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, MvYGlobalMeSample825X25X))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.RefidForGlobalmeSample0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, RefidForGlobalmeSample0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.RefidForGlobalmeSample18 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, RefidForGlobalmeSample18))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.Reserved530 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, Reserved530))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.PaletteCuCountNormalized != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, PaletteCuCountNormalized))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.Reserved564 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, Reserved564))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.IbcCuCountNormalized != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, IbcCuCountNormalized))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.Reserved596 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, Reserved596))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW22.PositionOfTimerExpiration != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW22, PositionOfTimerExpiration))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW22.Reserved721 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW22, Reserved721))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW22.TimerExpireStatus != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW22, TimerExpireStatus))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW23.LocationOfPanic != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW23, LocationOfPanic))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW23.PanicDetected != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW23, PanicDetected))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW23.Reserved753 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW23, Reserved753))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW31.SumBottomHalfPopulationOccurrences != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW31, SumBottomHalfPopulationOccurrences))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW31.SumTopHalfPopulationOccurrences != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW31, SumTopHalfPopulationOccurrences))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Maxcusize != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Maxcusize))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Maxtusize != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Maxtusize))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Numimepredictors != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Numimepredictors))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.PaletteDisable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, PaletteDisable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.PuType32X32016X1603 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, PuType32X32016X1603))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved21 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved21))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved23 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved23))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Roi32X32016X1603 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Roi32X32016X1603))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.ForceMvX32X32016X160 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, ForceMvX32X32016X160))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.ForceMvY32X32016X160 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, ForceMvY32X32016X160))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.ForceMvX32X32016X161 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, ForceMvX32X32016X161))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.ForceMvY32X32016X161 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, ForceMvY32X32016X161))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.ForceMvX32X32016X162 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, ForceMvX32X32016X162))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.ForceMvY32X32016X162 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, ForceMvY32X32016X162))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.ForceMvX32X32016X163 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, ForceMvX32X32016X163))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.ForceMvY32X32016X163 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, ForceMvY32X32016X163))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.ForceMvRefidx32X32016X160 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, ForceMvRefidx32X32016X160))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.ForceMvRefidx32X32016X1613 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, ForceMvRefidx32X32016X1613))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.Nummergecandidatecu16X16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, Nummergecandidatecu16X16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.Nummergecandidatecu32X32 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, Nummergecandidatecu32X32))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.Nummergecandidatecu64X64 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, Nummergecandidatecu64X64))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.Nummergecandidatecu8X8 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, Nummergecandidatecu8X8))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.ForceRefidEnable32X320 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, ForceRefidEnable32X320))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.ImePredictorRefidSelect0332X320 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, ImePredictorRefidSelect0332X320))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.QpEn32X32016X1603 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, QpEn32X32016X1603))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.Reserved245 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, Reserved245))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.Segid32X32016X1603Vp9Only != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, Segid32X32016X1603Vp9Only))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.SegidEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, SegidEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.ImePredictor0X32X320 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, ImePredictor0X32X320))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.ImePredictor0Y32X320 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, ImePredictor0Y32X320))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.ImePredictor0X32X321 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, ImePredictor0X32X321))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.ImePredictor0Y32X321 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, ImePredictor0Y32X321))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.ImePredictor0X32X322 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, ImePredictor0X32X322))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.ImePredictor0Y32X322 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, ImePredictor0Y32X322))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.ImePredictor0X32X323 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, ImePredictor0X32X323))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.ImePredictor0Y32X323 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, ImePredictor0Y32X323))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.ImePredictor0Refidx32X320 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, ImePredictor0Refidx32X320))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.ImePredictor13Refidx32X3213 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, ImePredictor13Refidx32X3213))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.Reserved400 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, Reserved400))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.Panicmodelcuthreshold != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, Panicmodelcuthreshold))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.Reserved432 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, Reserved432))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.ForceQpValue16X160 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, ForceQpValue16X160))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.ForceQpValue16X161 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, ForceQpValue16X161))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.ForceQpValue16X162 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, ForceQpValue16X162))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.ForceQpValue16X163 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, ForceQpValue16X163))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.ColorSpaceSelection != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, ColorSpaceSelection))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CrVCbUPixelOffsetVDirection != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CrVCbUPixelOffsetVDirection))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Height != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Height))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.SurfaceFormatByteSwizzle != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, SurfaceFormatByteSwizzle))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Width != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Width))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.ChromaDownsampleFilterControl != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, ChromaDownsampleFilterControl))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.HalfPitchForChroma != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, HalfPitchForChroma))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved55 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved55))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.SurfaceFormat != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, SurfaceFormat))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.SurfacePitch != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, SurfacePitch))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.TileWalk != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, TileWalk))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.TiledSurface != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, TiledSurface))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Reserved79 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Reserved79))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Reserved95 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Reserved95))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.XOffsetForUCb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, XOffsetForUCb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.YOffsetForUCb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, YOffsetForUCb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved125 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved125))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.XOffsetForVCr != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, XOffsetForVCr))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.YOffsetForVCr != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, YOffsetForVCr))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordCountN != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordCountN))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MediaCommandOpcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MediaCommandOpcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopcodea != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopcodea))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopcodeb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopcodeb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.AvpPipelineCommandFlush != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, AvpPipelineCommandFlush))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.AvpPipelineDone != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, AvpPipelineDone))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.HevcPipelineCommandFlush != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, HevcPipelineCommandFlush))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.HevcPipelineDone != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, HevcPipelineDone))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MflPipelineCommandFlush != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MflPipelineCommandFlush))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MflPipelineDone != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MflPipelineDone))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MfxPipelineCommandFlush != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MfxPipelineCommandFlush))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MfxPipelineDone != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MfxPipelineDone))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved37 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved37))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved52 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved52))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.VdCommandMessageParserDone != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, VdCommandMessageParserDone))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.VdencPipelineCommandFlush != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, VdencPipelineCommandFlush))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.VdencPipelineDone != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, VdencPipelineDone))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.OffsetForwardReference0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, OffsetForwardReference0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.OffsetForwardReference1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, OffsetForwardReference1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.WeightsForwardReference0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, WeightsForwardReference0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.WeightsForwardReference1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, WeightsForwardReference1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.OffsetBackwardReference0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, OffsetBackwardReference0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.OffsetForwardReference2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, OffsetForwardReference2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.WeightsBackwardReference0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, WeightsBackwardReference0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.WeightsForwardReference2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, WeightsForwardReference2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.BDirectWriteEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, BDirectWriteEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.ImePredictorOverlapThreshold != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, ImePredictorOverlapThreshold))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.LeftNeighborPixelMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, LeftNeighborPixelMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MacroblockSizeEstimatedScalingRatioForInter != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MacroblockSizeEstimatedScalingRatioForInter))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MacroblockSizeEstimatedScalingRatioForIntra != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MacroblockSizeEstimatedScalingRatioForIntra))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.PictureType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, PictureType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.SubpelMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, SubpelMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Transform8X8Flag != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Transform8X8Flag))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.BDirectReadEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, BDirectReadEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.BidirectionalWeight != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, BidirectionalWeight))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.HmeRefWindowSize != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, HmeRefWindowSize))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.ImeLeftPredDep != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, ImeLeftPredDep))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.ImePredictorLargeSearchWindow != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, ImePredictorLargeSearchWindow))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.InterSadAdjustment != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, InterSadAdjustment))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.IntraSadAdjustment != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, IntraSadAdjustment))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.NumImePredictors != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, NumImePredictors))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.NumberOfFractionalCandidatesChecked != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, NumberOfFractionalCandidatesChecked))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.RdeChromaEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, RdeChromaEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.SubmacroblockPartitionMask != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, SubmacroblockPartitionMask))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.PictureHeightMinusOne != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, PictureHeightMinusOne))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.PictureWidth != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, PictureWidth))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.AvcIntra16X16ModeMask != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, AvcIntra16X16ModeMask))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.AvcIntra4X4ModeMask != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, AvcIntra4X4ModeMask))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.AvcIntra8X8ModeMask != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, AvcIntra8X8ModeMask))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.IntraChromaMask != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, IntraChromaMask))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.IntraComputeType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, IntraComputeType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.LumaIntraPartitionMask != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, LumaIntraPartitionMask))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.RdeIntraChromaSearch != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, RdeIntraChromaSearch))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.BwdRefIdx0ReferencePicture != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, BwdRefIdx0ReferencePicture))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.FwdRefIdx0ReferencePicture != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, FwdRefIdx0ReferencePicture))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.FwdRefIdx1ReferencePicture != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, FwdRefIdx1ReferencePicture))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.FwdRefIdx2ReferencePicture != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, FwdRefIdx2ReferencePicture))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.NumberOfL0ReferencesMinusOne != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, NumberOfL0ReferencesMinusOne))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.NumberOfL1ReferencesMinusOne != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, NumberOfL1ReferencesMinusOne))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.RefIdxToReferencePictureNonDefaultEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, RefIdxToReferencePictureNonDefaultEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.Reserved172 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, Reserved172))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.Reserved188 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, Reserved188))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.TemporalBDirectMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, TemporalBDirectMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.IntraRefreshEnableRollingIEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, IntraRefreshEnableRollingIEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.IntraRefreshMbPos != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, IntraRefreshMbPos))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.IntraRefreshMbSizeMinusOne != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, IntraRefreshMbSizeMinusOne))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.IntraRefreshMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, IntraRefreshMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.QpAdjustmentForRollingI != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, QpAdjustmentForRollingI))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.Reserved210 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, Reserved210))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.LargeMbSizeInWord != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, LargeMbSizeInWord))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.PanicModeMbThreshold != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, PanicModeMbThreshold))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.SmallMbSizeInWord != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, SmallMbSizeInWord))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.MaxHMvR != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, MaxHMvR))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.MaxVMvR != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, MaxVMvR))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.QpAdjustmentForShapeBestIntra16X16Winner != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, QpAdjustmentForShapeBestIntra16X16Winner))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.QpAdjustmentForShapeBestIntra4X4Winner != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, QpAdjustmentForShapeBestIntra4X4Winner))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.QpAdjustmentForShapeBestIntra8X8Winner != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, QpAdjustmentForShapeBestIntra8X8Winner))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.Reserved316 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, Reserved316))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.RoiQpAdjustmentForZone0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, RoiQpAdjustmentForZone0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.RoiQpAdjustmentForZone1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, RoiQpAdjustmentForZone1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.RoiQpAdjustmentForZone2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, RoiQpAdjustmentForZone2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.RoiQpAdjustmentForZone3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, RoiQpAdjustmentForZone3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.BestdistortionQpAdjustmentForZone0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, BestdistortionQpAdjustmentForZone0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.BestdistortionQpAdjustmentForZone1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, BestdistortionQpAdjustmentForZone1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.BestdistortionQpAdjustmentForZone2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, BestdistortionQpAdjustmentForZone2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.BestdistortionQpAdjustmentForZone3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, BestdistortionQpAdjustmentForZone3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.SadHaarThreshold0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, SadHaarThreshold0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.SadHaarThreshold1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, SadHaarThreshold1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.SadHaarThreshold2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, SadHaarThreshold2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.InitialMacroblockBudgetForTransform4X4 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, InitialMacroblockBudgetForTransform4X4))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.MaxDeltaQp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, MaxDeltaQp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.MaxQp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, MaxQp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.MinQp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, MinQp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.Reserved412 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, Reserved412))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.BwdPredictor1MvEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, BwdPredictor1MvEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.CoefficientClampEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, CoefficientClampEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.FwdPredictor0MvEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, FwdPredictor0MvEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.LongtermReferenceFrameBwdRef0Indicator != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, LongtermReferenceFrameBwdRef0Indicator))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.MbLevelDeltaQpEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, MbLevelDeltaQpEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.MbLevelQpEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, MbLevelQpEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.MidpointSadHaar != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, MidpointSadHaar))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.Reserved424 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, Reserved424))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.Reserved427 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, Reserved427))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.RoiEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, RoiEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.TargetSizeInWordsMbMaxSizeInWordsMbEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, TargetSizeInWordsMbMaxSizeInWordsMbEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.ToPIMEPredictorDisable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, ToPIMEPredictorDisable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.ToPRightIMEPredictorDisable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, ToPRightIMEPredictorDisable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.ZMVPredictorDisable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, ZMVPredictorDisable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.ZeroCbfInterCheckEn != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, ZeroCbfInterCheckEn))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.ZeroCbfSkipCheckEn != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, ZeroCbfSkipCheckEn))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.CrePrefetchEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, CrePrefetchEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.ForceIpcmMinQp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, ForceIpcmMinQp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.IntraTransform4X4Percentage != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, IntraTransform4X4Percentage))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.IpcmEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, IpcmEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.QpPrimeY != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, QpPrimeY))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.Reserved != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, Reserved))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.Targetsizeinword != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, Targetsizeinword))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.TrellisQuantEn != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, TrellisQuantEn))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.TrellisTableSel != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, TrellisTableSel))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.IpcmZone0Qp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, IpcmZone0Qp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.IpcmZone0Thr != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, IpcmZone0Thr))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.TemporalBDirectScaleFactor != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, TemporalBDirectScaleFactor))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.IpcmZone1Qp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, IpcmZone1Qp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.IpcmZone1Thr != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, IpcmZone1Thr))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.Reserved520 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, Reserved520))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.IpcmZone2Qp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, IpcmZone2Qp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.IpcmZone2Thr != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, IpcmZone2Thr))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.Reserved552 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, Reserved552))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.IpcmZone3Qp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, IpcmZone3Qp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.IpcmZone3Thr != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, IpcmZone3Thr))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.Reserved584 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, Reserved584))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.IpcmZone4Qp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, IpcmZone4Qp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.IpcmZone4Thr != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, IpcmZone4Thr))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.Reserved616 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, Reserved616))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.BitDepth != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, BitDepth))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Downscaled4XWriteDisable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Downscaled4XWriteDisable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Downscaled8XWriteDisable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Downscaled8XWriteDisable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.FirstSecondaryChannelSelectionForRgbEncoding != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, FirstSecondaryChannelSelectionForRgbEncoding))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.FrameStatisticsStreamOutEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, FrameStatisticsStreamOutEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.IsRandomAccess != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, IsRandomAccess))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.OutputRangeControlAfterColorSpaceConversion != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, OutputRangeControlAfterColorSpaceConversion))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.PakChromaSubSamplingType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, PakChromaSubSamplingType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.PakThresholdCheckEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, PakThresholdCheckEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.PrimaryChannelSelectionForRgbEncoding != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, PrimaryChannelSelectionForRgbEncoding))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved51 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved51))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved58 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved58))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.RgbEncodingEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, RgbEncodingEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.ScalabilityMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, ScalabilityMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.StandardSelect != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, StandardSelect))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.StreamingBufferConfig != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, StreamingBufferConfig))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.TileReplayEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, TileReplayEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.TlbPrefetchEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, TlbPrefetchEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.VdencPakObjCmdStreamOutEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, VdencPakObjCmdStreamOutEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.VdencStreamInEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, VdencStreamInEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.HmeRegionPreFetchenable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, HmeRegionPreFetchenable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Hzshift32Minus1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Hzshift32Minus1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.LeftpreFetchatwraparound != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, LeftpreFetchatwraparound))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.NumVerticalReqMinus1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, NumVerticalReqMinus1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Numhzreqminus1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Numhzreqminus1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.PreFetchOffsetForReferenceIn16PixelIncrement != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, PreFetchOffsetForReferenceIn16PixelIncrement))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Reserved76 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Reserved76))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Reserved92 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Reserved92))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Topprefetchenablemode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Topprefetchenablemode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Verticalshift32Minus1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Verticalshift32Minus1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Hzshift32Minus1Src != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Hzshift32Minus1Src))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Numhzreqminus1Src != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Numhzreqminus1Src))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Numverticalreqminus1Src != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Numverticalreqminus1Src))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.PreFetchoffsetforsource != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, PreFetchoffsetforsource))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved108 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved108))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved98 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved98))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.SourceChromaTlbPreFetchenable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, SourceChromaTlbPreFetchenable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.SourceLumaPackedDataTlbPreFetchenable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, SourceLumaPackedDataTlbPreFetchenable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.VerticalMotionVectoreLimit != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, VerticalMotionVectoreLimit))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Verticalshift32Minus1Src != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Verticalshift32Minus1Src))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.AVCGammaPredictorMVreplication != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, AVCGammaPredictorMVreplication))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Debugtilenum != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Debugtilenum))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Debugtilepassnum != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Debugtilepassnum))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.GAMMAPredictorScaleFactor != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, GAMMAPredictorScaleFactor))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.GammaPredictor1Direction != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, GammaPredictor1Direction))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.GammaPredictor1Enable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, GammaPredictor1Enable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.GammaPredictor1RefIDX != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, GammaPredictor1RefIDX))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.GammaPredictor2Direction != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, GammaPredictor2Direction))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.GammaPredictor2Enable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, GammaPredictor2Enable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.GammaPredictor2RefIDX != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, GammaPredictor2RefIDX))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.PreENCPassEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, PreENCPassEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.PreENCpassBlockSize != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, PreENCpassBlockSize))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.PreEncpassIntraInterSADadjustmentbeforecompare != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, PreEncpassIntraInterSADadjustmentbeforecompare))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Reserved_143 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Reserved_143))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.Reserved_151 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, Reserved_151))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.StreaminQPSurfaceEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, StreaminQPSurfaceEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.CaptureMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, CaptureMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.FrameNumber != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, FrameNumber))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.HeadPointerUpdateAuto != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, HeadPointerUpdateAuto))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.HeadPtrUpdateIOSFDirect != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, HeadPtrUpdateIOSFDirect))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.ParallelCaptureAndEncodeSessionId != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, ParallelCaptureAndEncodeSessionId))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.Reserved164 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, Reserved164))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.Reserved176 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, Reserved176))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.TailPointerReadFrequency != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, TailPointerReadFrequency))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.SurfaceId != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, SurfaceId))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Length != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Length))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.FirstSuperSlice != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, FirstSuperSlice))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MbLcuStartXPosition != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MbLcuStartXPosition))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.MbLcuStartYPosition != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, MbLcuStartYPosition))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved41 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved41))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved57 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved57))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved61 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved61))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.NextsliceMbLcuStartXPosition != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, NextsliceMbLcuStartXPosition))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.NextsliceMbStartYPosition != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, NextsliceMbStartYPosition))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Reserved74 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Reserved74))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW2.Reserved90 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW2, Reserved90))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MediaInstructionCommand != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MediaInstructionCommand))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.MediaInstructionOpcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, MediaInstructionOpcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.PipelineType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, PipelineType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved32 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved32))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved34 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved34))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.VdencInitialization != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, VdencInitialization))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost3 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost3))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost4 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost4))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost5 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost5))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost6 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost6))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1_2.HmeMvCost7 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1_2, HmeMvCost7))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.Merge16X16Cost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, Merge16X16Cost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.Reserved320 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, Reserved320))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW10.Skip16X16Cost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW10, Skip16X16Cost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.ModeInter16X16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, ModeInter16X16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.ModeInter16X8 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, ModeInter16X8))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.ModeInter8X4 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, ModeInter8X4))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.ModeInter8X8 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, ModeInter8X8))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.ModeInterBidir != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, ModeInterBidir))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.RdChromaIntraModeCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, RdChromaIntraModeCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.RefIdCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, RefIdCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.SadChromaIntraModeCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, SadChromaIntraModeCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.Reserved448 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, Reserved448))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.SadPenaltyForIntraNondc16X16PredMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, SadPenaltyForIntraNondc16X16PredMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.SadPenaltyForIntraNondc4X4PredMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, SadPenaltyForIntraNondc4X4PredMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.SadPenaltyForIntraNondc8X8PredMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, SadPenaltyForIntraNondc8X8PredMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.RdPenaltyForIntraDc4X4PredMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, RdPenaltyForIntraDc4X4PredMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.RdPenaltyForIntraNondc16X16PredMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, RdPenaltyForIntraNondc16X16PredMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.RdPenaltyForIntraNondc8X8PredMode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, RdPenaltyForIntraNondc8X8PredMode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.Reserved480 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, Reserved480))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.Reserved512 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, Reserved512))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.Reserved536 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, Reserved536))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.SadIntraNonPredModeCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, SadIntraNonPredModeCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.ModeIntra16X16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, ModeIntra16X16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.ModeIntra4X4 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, ModeIntra4X4))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.ModeIntra8X8 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, ModeIntra8X8))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.RdModeIntraNonPred != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, RdModeIntraNonPred))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.Reserved608 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, Reserved608))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.TuDepthCost0 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, TuDepthCost0))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.TuDepthCost1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, TuDepthCost1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW19.TuDepthCost2 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW19, TuDepthCost2))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW20.IntraTu4X4CbfCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW20, IntraTu4X4CbfCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW20.IntraTu8X8CbfCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW20, IntraTu8X8CbfCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW20.Reserved656 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW20, Reserved656))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW21.InterTu4X4CbfCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW21, InterTu4X4CbfCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW21.InterTu8X8CbfCost != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW21, InterTu8X8CbfCost))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW21.Reserved688 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW21, Reserved688))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW22.RdQpLambda != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW22, RdQpLambda))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW22.Reserved729 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW22, Reserved729))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW22.SadQpLambda != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW22, SadQpLambda))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.Reserved32 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, Reserved32))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.RoundInter != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, RoundInter))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.RoundInterEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, RoundInterEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.RoundIntra != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, RoundIntra))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW1.RoundIntraEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW1, RoundIntraEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Log2WeightDenomLuma != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Log2WeightDenomLuma))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved99 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved99))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.CommandType != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, CommandType))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.DwordLength != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, DwordLength))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Opcode != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Opcode))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Pipeline != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Pipeline))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Reserved12 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Reserved12))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopa != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopa))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW0.Subopb != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW0, Subopb))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.HevcVp9Log2WeightDenomLuma != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, HevcVp9Log2WeightDenomLuma))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Log2WeightDenomLuma != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Log2WeightDenomLuma))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.NumParEngine != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, NumParEngine))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved103 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved103))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved107 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved107))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved113 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved113))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.Reserved99 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, Reserved99))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.TileNumber != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, TileNumber))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW3.TileRowStoreSelect != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW3, TileRowStoreSelect))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.TileStartCtbX != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, TileStartCtbX))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW4.TileStartCtbY != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW4, TileStartCtbY))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.TileHeight != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, TileHeight))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW5.TileWidth != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW5, TileWidth))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.Reserved193 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, Reserved193))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.StreaminOffsetEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, StreaminOffsetEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW6.TileStreaminOffset != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW6, TileStreaminOffset))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.Reserved225 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, Reserved225))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.RowStoreOffsetEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, RowStoreOffsetEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW7.TileRowstoreOffset != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW7, TileRowstoreOffset))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.Reserved257 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, Reserved257))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.TileStreamoutOffset != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, TileStreamoutOffset))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW8.TileStreamoutOffsetEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW8, TileStreamoutOffsetEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.LcuStreamOutOffsetEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, LcuStreamOutOffsetEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.Reserved289 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, Reserved289))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW9.TileLcuStreamOutOffset != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW9, TileLcuStreamOutOffset))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.DeltaQp != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, DeltaQp))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.IntraFlatnessThresholdForIbc != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, IntraFlatnessThresholdForIbc))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW11.Reserved370 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW11, Reserved370))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.ColoredDistanceMetric != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, ColoredDistanceMetric))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.GlobalCountMinus1 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, GlobalCountMinus1))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.GrayscaleTest != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, GrayscaleTest))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.Hashquant != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, Hashquant))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.IbcControl != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, IbcControl))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.PaletteModeEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, PaletteModeEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.PrimaryColorDifferenceThreshold != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, PrimaryColorDifferenceThreshold))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.Reserved387 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, Reserved387))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.Reserved407 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, Reserved407))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW12.Reserved413 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW12, Reserved413))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.HashthresholdClass0Distance != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, HashthresholdClass0Distance))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.HashthresholdClass1Distance != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, HashthresholdClass1Distance))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.Reserved426 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, Reserved426))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW13.Reserved442 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW13, Reserved442))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.Hashguardband16X16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, Hashguardband16X16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.HashthresholdClass0Count != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, HashthresholdClass0Count))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.HashthresholdClass1Count != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, HashthresholdClass1Count))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.HashthresholdClass1Length != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, HashthresholdClass1Length))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.MaxEscapeBinsBy8 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, MaxEscapeBinsBy8))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.MaxEscapeBinsCheckEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, MaxEscapeBinsCheckEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.Reserved454 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, Reserved454))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.Reserved462 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, Reserved462))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW14.Reserved471 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW14, Reserved471))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.EscapeThreshold != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, EscapeThreshold))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.IntraFlatnessCheckThresholdForPlt != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, IntraFlatnessCheckThresholdForPlt))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW15.Reserved490 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW15, Reserved490))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.MaxRunComplexityMinus1Cu16X16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, MaxRunComplexityMinus1Cu16X16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.MaxRunComplexityMinus1Cu32X32 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, MaxRunComplexityMinus1Cu32X32))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.MaxRunComplexityMinus1Cu8X8 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, MaxRunComplexityMinus1Cu8X8))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.Reserved518 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, Reserved518))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.Reserved526 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, Reserved526))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.Reserved534 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, Reserved534))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.ReservedForAdaptiveChannelThreshold != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, ReservedForAdaptiveChannelThreshold))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.StrictPalette16X16 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, StrictPalette16X16))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.StrictPalette32X32 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, StrictPalette32X32))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW16.StrictPalette8X8 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW16, StrictPalette8X8))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.CumulativeCuTileOffset != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, CumulativeCuTileOffset))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.CumulativeCuTileOffsetEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, CumulativeCuTileOffsetEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW17.Reserved545 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW17, Reserved545))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.PaletteStreamoutTileOffset != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, PaletteStreamoutTileOffset))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.PaletteStreamoutTileOffsetEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, PaletteStreamoutTileOffsetEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW18.Reserved577 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW18, Reserved577))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW27.Reserved15 != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW27, Reserved15))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW27.StreaminQPOrQPdeltaOffset != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW27, StreaminQPOrQPdeltaOffset))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        if(m_fieldtovalidate && m_reference.DW27.StreaminQPOrQPdeltaOffsetEnable != xml1.getfield(TestName, VDENC_PIPE_MODE_SELECT_CMD, DW27, StreaminQPOrQPdeltaOffsetEnable))
+        {
+               error_code.push_back(false);
+        }
+        else
+        {
+               error_code.push_back(true);
+        }
+
+        //find false index
+        auto it = error_code.begin(), end = error_code.end();
+        for ( int index = 0; it != end; ++it, ++index)
+            if (*it == false)
+                error_index.push_back(index);
+        std::cout<<"error_index";
+        for (auto i : error_index)
+            std::cout << i << ' '<<std::endl;
+        return error_index;
+}
