@@ -24,7 +24,7 @@
     <ClInclude Include="pugixml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="readxml.h">
+    <ClInclude Include="xml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="readxml.cpp">
+    <ClCompile Include="pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pugixml.cpp">
+    <ClCompile Include="xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

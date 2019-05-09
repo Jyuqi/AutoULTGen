@@ -1,3 +1,3 @@
-﻿  readxml.cpp
-c:\projects\github\autoultgen\cmd_validation\readxml\readxml\readxml.cpp(10): warning C4715: 'xml::readconfig': not all control paths return a value
+﻿  xml.cpp
+c:\projects\github\autoultgen\cmd_validation\readxml\readxml\xml.cpp(10): warning C4715: 'xml::readconfig': not all control paths return a value
   readxml.vcxproj -> C:\projects\github\AutoULTGen\cmd_validation\readxml\Debug\readxml.exe
