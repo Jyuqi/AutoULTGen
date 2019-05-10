@@ -1,1 +1,5 @@
-This tool is used to convert h to xml
+This tool is used to convert h to xml.
+Step:
+1. Define input file and path in input.txt
+2. Run xmlgen.py. Create xml which contains absolutely same structure with mhw.h files
+3. Run cmdconfiggen.py. From xml in the last step, filter useless infomation and create target xml. 
