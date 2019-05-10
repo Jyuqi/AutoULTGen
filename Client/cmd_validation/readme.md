@@ -4,5 +4,4 @@
 
 - webgenxml.py extracts user config xml from bspec webpage
 
-After one of above options, genertate c++ code to expand each cmd field, read xml c++ part is defined in readxml folder.
-
+After one of above options, use cmdclassgen.py to expand each cmd field in c++. (readxml c++ part is defined in readxml folder)
