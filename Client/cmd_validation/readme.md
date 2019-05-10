@@ -1,4 +1,4 @@
-#This part is used to read config xml in different ways.
+##This part is used to read config xml in different ways.
 
 - cmdconfiggen.py :  From xml generated from mhw.h file(in htoxml folder) , filter useless infomation and create target xml. 
 
