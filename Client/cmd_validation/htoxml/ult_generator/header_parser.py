@@ -2,6 +2,7 @@ from xml.etree.ElementTree import (
     Element, SubElement, tostring, XML,
 )
 from ElementTree_pretty import prettify
+import os
 
 class HeaderParser(object):
     """
@@ -38,8 +39,16 @@ class HeaderParser(object):
             self.name = name
         if path:
             self.path = path
-        with open(self.path + self.name, 'r') as fin:
+        with open(os.path.join(self.path, self.name), 'r',  encoding="ISO-8859-1") as fin:
             self.lines = fin.readlines()
+
+    def write_xml(self, name=None, path=None ):
+        if name:
+            self.name = name
+        if path:
+            self.path = path
+        with open(os.path.join(self.path, self.name) + '.xml', 'w') as fout:
+            fout.write(self.parse_file_info())
 
     @staticmethod
     def get_datastructure(line):
@@ -106,10 +115,11 @@ class HeaderParser(object):
 
             
         elif len(item_list) > 2:
-            #2: 'uint32_t                 AddressUpperDword                                : __CODEGEN_BITFIELD( 0, 15)    ; ' 
+            #2.1: 'uint32_t                 AddressUpperDword                                : __CODEGEN_BITFIELD( 0, 15)    ; ' 
+            #2.2: 'uint32_t                 AddressUpperDword:                                 __CODEGEN_BITFIELD( 0, 15)    ; '
             if line.find('CODEGEN_BITFIELD') != -1 :
                 type = item_list[0]
-                name = item_list[1]
+                name = item_list[1].strip(':').strip()
                 address = line_clr[line_clr.find('(')+1 : line_clr.find(')') ].strip()
                 
 
@@ -152,12 +162,16 @@ class HeaderParser(object):
 
         #pretreat texts
         new_lines=[]
-        for line in self.lines:
+        for index, line in enumerate(self.lines):
             line = line.replace('{','\n{\n')    #make sure '{' and '}' be splited
             # line = line.replace('}','\n}\n')
             line = line.lstrip()    #delete former blank
-            line = line.split('\n')
-            new_lines.extend ( [x.strip() for x in line if x] )   #filter blank in the list
+            
+            if line.startswith('__CODEGEN_BITFIELD'):   #in case unfinished definition
+                new_lines[-1] = new_lines[-1].strip('\n') +'  ' +line
+            else:
+                line = line.split('\n')
+                new_lines.extend ( [x.strip() for x in line if x] )   #filter blank in the list
         
         # print(new_lines[373])
         for index, line_clr in enumerate(new_lines):

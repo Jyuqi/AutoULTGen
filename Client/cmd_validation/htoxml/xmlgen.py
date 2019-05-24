@@ -1,11 +1,15 @@
-# generate unified cmd config file from .h, no use now
+# generate unified cmd config file from .h
 from ult_generator import header_parser
-import re
 import os
+from mvfiles import *
 
 
 def main(input_file='input.txt', media_path='C:\\Users\\jiny\\gfx\\gfx-driver\\Source\\media\\\media_driver\\agnostic'):
-       with open(input_file, 'r') as fin:
+    source = r'C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\agnostic\gen12'
+    target = r'C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\media_driver_next\ult\agnostic\test\gen12'
+    cpfiles(source, target)
+
+    with open(input_file, 'r') as fin:
         for line in fin:
             line = line.strip()
             if not line:
