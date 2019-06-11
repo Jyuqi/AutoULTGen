@@ -56,9 +56,12 @@ class CmdFinder(object):
                                                                         'bitfield_l': bit_l,
                                                                         'bitfield_h': bit_h})   #set hex value , which represents defalt value of a bitfield
         
-        if 'Address' in fieldname:
+        if 'address' in fieldname.lower() and int(bit_h) - int(bit_l) > 16:
             bitfield_group.set('Address', 'Y')
             bitfield_group.set('CHECK', 'N')
+        elif 'DataDword' in fieldname:
+            bitfield_group.set('Address', 'Y')
+            bitfield_group.set('CHECK', 'Y')
         elif 'Reserved' in fieldname:
             bitfield_group.set('Address', 'N')
             bitfield_group.set('CHECK', 'N')
