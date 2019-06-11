@@ -9,6 +9,7 @@ from xml.etree.ElementTree import (
 from ElementTree_pretty import prettify
 import re
 import copy
+from mvfiles import cpfiles
 
 class CmdFinder(object):
     def __init__(self, source, gen, ringpath):
@@ -59,9 +60,6 @@ class CmdFinder(object):
         if 'address' in fieldname.lower() and int(bit_h) - int(bit_l) > 16:
             bitfield_group.set('Address', 'Y')
             bitfield_group.set('CHECK', 'N')
-        elif 'DataDword' in fieldname:
-            bitfield_group.set('Address', 'Y')
-            bitfield_group.set('CHECK', 'Y')
         elif 'Reserved' in fieldname:
             bitfield_group.set('Address', 'N')
             bitfield_group.set('CHECK', 'N')
@@ -374,7 +372,10 @@ class CmdFinder(object):
                 else:
                     if thing.startswith('mhw_') and thing.endswith('.h'):
                         parser_list.append(header_parser.HeaderParser(thing, r))
-                
+        if not parser_list:
+            cpfiles(self.source)
+            self.h2xml()
+
         for item in parser_list:
             item.read_file()
             item.write_xml()
@@ -531,7 +532,7 @@ source = r'C:\Users\jiny\gfx\gfx-driver\Source\media'
 #----------------------------------------------------------------
 #init
 obj = CmdFinder(source, gen, ringpath)
-#obj.h2xml()
+obj.h2xml()
 obj.writexml()
 #----------------------------------------------------------------
 #countlines(source)
