@@ -9,7 +9,8 @@ from xml.etree.ElementTree import (
 from ElementTree_pretty import prettify
 import re
 import copy
-from mvfiles import cpfiles
+import time
+
 
 class CmdFinder(object):
     def __init__(self, source, gen, ringpath):
@@ -22,8 +23,29 @@ class CmdFinder(object):
         self.same = [['_ON_OFF','_CHECK'],['VEB','VEBOX'],['COST','COSTS'],['QMS','QM'],['IMAGE','IMG'],['WEIGHTSOFFSETS','WEIGHTS_OFFSETS'], ['CMD_HCP_VP9_RDOQ_STATE', 'HEVC_VP9_RDOQ_STATE_CMD']]
         self.ignored = ['CMD', 'COMMAND', 'OBJECT', 'MEDIA', 'STATE']
         self.classpath = ['ats', 'tglhp', 'x']
-        self.TestName = Element('TestName')  #create TestName as root node
-    
+        self.TestName = Element('TestName')  #create TestName as result root node
+        self.Buf = Element('Buf')
+        self.filter = ['mi', 'hcp']
+
+    def xmlbuf(self):
+        # save all xml info into self.buf
+        # if create xml seperately for each h 
+        for r,d,f in os.walk(self.source):
+            #filter test folder
+            if r'\ult\agnostic\test' not in r:
+                continue
+            os.chdir(r)
+            for thing in f:
+                # find required cmd in xml file
+                if [i for i in self.classpath if i in thing] :
+                    if thing.startswith('mhw_') and thing.endswith('.h.xml'):
+                        if  self.gen == 'all' or self.gen != 'all' and str(self.gen) in thing:
+                            tree = ET.parse(thing)
+                            root = tree.getroot()
+                            self.Buf.append(copy.deepcopy(root))
+        #print(prettify(self.Buf))
+
+
     def writexml(self, index = 0):
         #output xml
         for r,d,f in os.walk(self.ringpath):
@@ -40,8 +62,12 @@ class CmdFinder(object):
                 for pair in self.full_ringinfo:
                     #fullringcmd : [{'MI_LOAD_REGISTER_IMM': ['1108101d', '00000244']},...]
                     for ringcmd, value_list in pair.items():
+                        
                         if not self.memory(ringcmd, value_list, frame_group, index):
+                            # cal time
+                            start1 = time.clock()
                             frame_group = self.mapcmd(ringcmd, value_list, frame_group, index)
+                            print("MAP Time used:", time.clock() - start1, ",  index = ", index)
                         index += 1
 
         #with open( os.path.join(self.ringpath ,  "map" + self.ringfilename.strip(r'.txt') +".xml") , "w") as f:
@@ -81,6 +107,7 @@ class CmdFinder(object):
         #print(xpath)
         #cmd = self.TestName.find(xpath)
         #cmd = self.TestName.find(".//CMD[@name='MI_FORCE_WAKEUP']")
+        start2 = time.clock()
         for cmd in self.TestName.findall(".//CMD"):
             if self.searchkword(ringcmd, cmd.attrib['name']):
                 dupe = copy.deepcopy(cmd)
@@ -100,6 +127,7 @@ class CmdFinder(object):
                 dupe= self.unmapdw( dupe, dw_no, value_list)
                 node.append(dupe) #insert the new node
                 #print(prettify(dupe))
+                print("Search saved xml Time used:", time.clock() - start2)
                 return True
         else:
             return False
@@ -114,19 +142,23 @@ class CmdFinder(object):
 
         binv_list = [ bin(int(i, 16))[2:].zfill(32) for i in value_list ]   #each dword length = 32 bits(include leading 0)
         
+        #for platform in self.classpath:
+        #    for r,d,f in os.walk(self.source):
+        #        #filter test folder
+        #        if r'\ult\agnostic\test' not in r:
+        #            continue
+        #        os.chdir(r)
+        #        for thing in f:
+        #            # find required cmd in xml file
+        #            if [i for i in self.filter if i not in ringcmd.lower() or i in ringcmd.lower() and i in thing] :
+        #                if thing.startswith('mhw_') and thing.endswith('.h.xml') and platform in thing:
+        #                    if  self.gen == 'all' or self.gen != 'all' and str(self.gen) in thing:
+                                #tree = ET.parse(thing)
+                                #root = tree.getroot()
         for platform in self.classpath:
-            for r,d,f in os.walk(self.source):
-                #filter test folder
-                if r'\ult\agnostic\test' not in r:
-                    continue
-                os.chdir(r)
-                for thing in f:
-                    # find required cmd in xml file
-                    if thing.startswith('mhw_') and thing.endswith('.h.xml') and platform in thing:
-                        if  self.gen == 'all' or self.gen != 'all' and str(self.gen) in thing:
-                                tree = ET.parse(thing)
-                                root = tree.getroot()
-                                for Class in root.findall('class'):
+            for Class in self.Buf.findall('./content/class'):
+                if 'name' in Class.attrib and platform in Class.attrib['name'].lower():
+                                #for Class in root.findall('class'):
                                     for structcmd in Class.iter('struct'):
                                         # search cmd in all the local files
                                         if 'name' in structcmd.attrib and self.searchkword(ringcmd, structcmd.attrib['name']):
@@ -270,19 +302,23 @@ class CmdFinder(object):
     def findcmd(self, node, cmd, value_list, base_dw_no, arraysize = ''):
         # find cmd according to name, append to node
         binv_list = [ bin(int(i, 16))[2:].zfill(32) for i in value_list ]   #each dword length = 32 bits(include leading 0)
+        #for platform in self.classpath:
+        #    for r,d,f in os.walk(self.source):
+        #        #filter test folder
+        #        if r'\ult\agnostic\test' not in r:
+        #            continue
+        #        os.chdir(r)
+        #        for thing in f:
+        #            # find required cmd in xml file
+        #            if [i for i in self.filter if i not in ringcmd.lower() or i in ringcmd.lower() and i in thing] :
+        #                if thing.startswith('mhw_') and thing.endswith('.h.xml') and platform in thing:
+        #                    if  self.gen == 'all' or self.gen != 'all' and str(self.gen) in thing:
+        #                        tree = ET.parse(thing)
+        #                        root = tree.getroot()
+        #                        for Class in root.findall('class'):
         for platform in self.classpath:
-            for r,d,f in os.walk(self.source):
-                #filter test folder
-                if r'\ult\agnostic\test' not in r:
-                    continue
-                os.chdir(r)
-                for thing in f:
-                    # find required cmd in xml file
-                    if thing.startswith('mhw_') and thing.endswith('.h.xml') and platform in thing:
-                        if  self.gen == 'all' or self.gen != 'all' and str(self.gen) in thing:
-                                tree = ET.parse(thing)
-                                root = tree.getroot()
-                                for Class in root.findall('class'):
+            for Class in self.Buf.findall('./content/class'):
+                if 'name' in Class.attrib and platform in Class.attrib['name'].lower():
                                     for structcmd in Class.iter('struct'):
                                         # search cmd in all the local files
                                         if 'name' in structcmd.attrib and structcmd.attrib['name'] == cmd:
@@ -361,7 +397,8 @@ class CmdFinder(object):
         parser_list = []
         for r,d,f in os.walk(self.source):
             #modify target file
-            if r'\ult\agnostic\test' not in r:
+            #if r'\ult\agnostic\test' not in r:
+            if r'\ult\agnostic\test' in r:
                 continue
             for thing in f:
                 # filter all mhw cmd header file
@@ -372,13 +409,13 @@ class CmdFinder(object):
                 else:
                     if thing.startswith('mhw_') and thing.endswith('.h'):
                         parser_list.append(header_parser.HeaderParser(thing, r))
-        if not parser_list:
-            cpfiles(self.source)
-            self.h2xml()
 
         for item in parser_list:
             item.read_file()
-            item.write_xml()
+            #Do not create xml file for each h file, instead save in buf str
+            #item.write_xml()
+            root = ET.fromstring(item.parse_file_info())
+            self.Buf.append(copy.deepcopy(root))
 
     def txt2df(self):
         #read ringcmdtringcmd text file into pd dataframe, which cmd stringcmd can be easily extracted
@@ -524,16 +561,16 @@ class CmdFinder(object):
 
 #----------------------------------------------------------------
 ringpath = r'C:\projects\github\AutoULTGen\cmd_validation\vcstringinfo\Hevc_vdenc'
-#ringfilename = '3-VcsRingInfo_0_0.txt'
 gen = 12
 source = r'C:\Users\jiny\gfx\gfx-driver\Source\media'
 #----------------------------------------------------------------
 
 #----------------------------------------------------------------
 #init
+start = time.clock()
 obj = CmdFinder(source, gen, ringpath)
 obj.h2xml()
 obj.writexml()
+elapsed = (time.clock() - start)
+print("Total Time used:",elapsed)   #291.8s 
 #----------------------------------------------------------------
-#countlines(source)
-#cpfiles(source)
