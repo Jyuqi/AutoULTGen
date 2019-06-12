@@ -73,7 +73,13 @@ def cpfiles(source, lines=0, header=True, begin_start=None):
             if os.path.isdir(thing):
                 lines = countlines(thing, lines, header=False, begin_start=source)
     return lines
-                  
+
+def clrfiles(source):
+    for r,d,f in os.walk(source):
+        #ult folder is generated additionally for tests, skip them 
+        if r.endswith(r'\ult\agnostic\test'):
+            shutil.rmtree(r, ignore_errors=True)
+
 
 #----------------------------------------------------------------
 ringpath = r'C:\projects\github\AutoULTGen\cmd_validation\vcstringinfo'
@@ -82,7 +88,8 @@ gen = 12
 source = r'C:\Users\jiny\gfx\gfx-driver\Source\media'
 #----------------------------------------------------------------
 #countlines(source)
-#cpfiles(source)
+cpfiles(source)
+#clrfiles(source)
 
 
 

@@ -380,9 +380,8 @@ class HeaderParser(object):
             #e.g. 'VDENC_64B_Aligned_Lower_Address_CMD LowerAddress
             #      'HUC_VIRTUAL_ADDR_REGION_CMD              HucVirtualAddressRegion[16];  '        
             if line_clr.find('_CMD') != -1:
-                if (current_group.tag == 'struct' and 'name' in current_group.attrib) or current_group.tag == 'union': 
-                    if 'name' in current_group.attrib and current_group.attrib['name'].endswith('_CMD'):
-                    
+                if (current_group.tag == 'struct' and 'name' in current_group.attrib and current_group.attrib['name'].endswith('_CMD')) or current_group.tag == 'union': 
+                    if 'name' in current_group.attrib :
                         #1: constructor xxx_CMD{xxx_CMD();}
                         constructor = current_group.attrib['name']
                         if line_clr.startswith(constructor) and '(' in line_clr and ')' in line_clr:
@@ -393,22 +392,23 @@ class HeaderParser(object):
                             if line_clr1:
                                 constructor_group.set('text', line_clr1)
                             continue
-                        #2: otherstruct yyy_CMD zzz;
-                        #3: inside union yyy_CMD zzz;
-                        # may have exceptions
-                        else:
-                            line_clr1 = line_clr.strip().strip(';').strip()
-                            item_list = line_clr1.split()
-                            otherCMD = item_list[0]
-                            name = item_list[1]
-                            otherCMD_group = SubElement(current_group, 'otherCMD')
+                    #2: otherstruct yyy_CMD zzz;
+                    #3: inside union yyy_CMD zzz;
+                    # may have exceptions
+                        
+                    line_clr1 = line_clr.strip().strip(';').strip()
+                    item_list = line_clr1.split()
+                    otherCMD = item_list[0]
+                    if otherCMD.endswith('_CMD'):
+                        name = item_list[1]
+                        otherCMD_group = SubElement(current_group, 'otherCMD')
 
-                            if re.search('\[\d+\]',name):
-                                arraysize = re.search('\[\d+\]', name)[0].strip('[').strip(']')
-                                otherCMD_group.set('arraysize', arraysize)
-                            otherCMD_group.set('otherCMD', otherCMD)
-                            otherCMD_group.set('name', name)
-                            continue
+                        if re.search('\[\d+\]',name):
+                            arraysize = re.search('\[\d+\]', name)[0].strip('[').strip(']')
+                            otherCMD_group.set('arraysize', arraysize)
+                        otherCMD_group.set('otherCMD', otherCMD)
+                        otherCMD_group.set('name', name)
+                        continue
             #------------------------------------------------------------
             
             #------------------------------------------------------------
@@ -464,3 +464,12 @@ class HeaderParser(object):
         #print(prettify(content))
         
         return prettify(content)
+
+
+
+#test
+#filename = 'mhw_vdbox_vdenc_hwcmd_g12_X.h'
+#path = r'C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\ult\agnostic\test\gen12\hw\vdbox'
+#obj = HeaderParser(filename, path)
+#obj.read_file()
+#obj.write_xml()

@@ -13,7 +13,7 @@ import time
 
 
 class CmdFinder(object):
-    def __init__(self, source, gen, ringpath):
+    def __init__(self, source, gen, ringpath, Buf = None):
         self.source = source
         self.gen = gen
         self.ringpath = ringpath
@@ -24,12 +24,17 @@ class CmdFinder(object):
         self.ignored = ['CMD', 'COMMAND', 'OBJECT', 'MEDIA', 'STATE']
         self.classpath = ['ats', 'tglhp', 'x']
         self.TestName = Element('TestName')  #create TestName as result root node
-        self.Buf = Element('Buf')
         self.filter = ['mi', 'hcp']
+        if Buf:
+            self.Buf = Buf
+        else:
+            self.Buf = Element('Buf')
+        
 
     def xmlbuf(self):
+         # use for Test, search buf is in h2xml part
         # save all xml info into self.buf
-        # if create xml seperately for each h 
+        # if create xml seperately for each h
         for r,d,f in os.walk(self.source):
             #filter test folder
             if r'\ult\agnostic\test' not in r:
@@ -157,7 +162,7 @@ class CmdFinder(object):
                                 #root = tree.getroot()
         for platform in self.classpath:
             for Class in self.Buf.findall('./content/class'):
-                if 'name' in Class.attrib and platform in Class.attrib['name'].lower():
+                if 'name' in Class.attrib and platform in Class.attrib['name'].lower() and [i for i in self.filter if i not in ringcmd.lower() or i in ringcmd.lower() and i in Class.attrib['name'].lower()]:
                                 #for Class in root.findall('class'):
                                     for structcmd in Class.iter('struct'):
                                         # search cmd in all the local files
@@ -318,7 +323,7 @@ class CmdFinder(object):
         #                        for Class in root.findall('class'):
         for platform in self.classpath:
             for Class in self.Buf.findall('./content/class'):
-                if 'name' in Class.attrib and platform in Class.attrib['name'].lower():
+                if 'name' in Class.attrib and platform in Class.attrib['name'].lower() and [i for i in self.filter if i not in cmd.lower() or i in cmd.lower() and i in Class.attrib['name'].lower()]:
                                     for structcmd in Class.iter('struct'):
                                         # search cmd in all the local files
                                         if 'name' in structcmd.attrib and structcmd.attrib['name'] == cmd:
@@ -394,6 +399,7 @@ class CmdFinder(object):
     def h2xml(self):
         #convert header to xml
         #use header_parser tool
+        
         parser_list = []
         for r,d,f in os.walk(self.source):
             #modify target file
@@ -416,6 +422,7 @@ class CmdFinder(object):
             #item.write_xml()
             root = ET.fromstring(item.parse_file_info())
             self.Buf.append(copy.deepcopy(root))
+        return self.Buf
 
     def txt2df(self):
         #read ringcmdtringcmd text file into pd dataframe, which cmd stringcmd can be easily extracted
@@ -569,8 +576,17 @@ source = r'C:\Users\jiny\gfx\gfx-driver\Source\media'
 #init
 start = time.clock()
 obj = CmdFinder(source, gen, ringpath)
-obj.h2xml()
+Buf = obj.h2xml()
 obj.writexml()
 elapsed = (time.clock() - start)
-print("Total Time used:",elapsed)   #291.8s 
+print("Total Time used:",elapsed)   #36s 
+#----------------------------------------------------------------
+
+#----------------------------------------------------------------
+#after running once
+start = time.clock()
+obj = CmdFinder(source, gen, ringpath, Buf)
+obj.writexml()
+elapsed = (time.clock() - start)
+print("Total Time used:", elapsed)   #30s 
 #----------------------------------------------------------------
