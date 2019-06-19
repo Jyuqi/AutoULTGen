@@ -75,8 +75,8 @@ class CmdFinder(object):
                             print("MAP Time used:", time.clock() - start1, ",  index = ", index)
                         index += 1
 
-        #with open( os.path.join(self.ringpath ,  "map" + self.ringfilename.strip(r'.txt') +".xml") , "w") as f:
-        with open( os.path.join(self.ringpath , "mapvecstring.xml") , "w") as f:
+        with open( os.path.join(self.ringpath ,  "map" + self.ringfilename.strip(r'.txt') +".xml") , "w") as f:
+        #with open( os.path.join(self.ringpath , "mapvecstring.xml") , "w") as f:
             f.write(prettify(self.TestName))
         return prettify(self.TestName)
     
@@ -567,7 +567,7 @@ class CmdFinder(object):
     
 
 #----------------------------------------------------------------
-ringpath = r'C:\projects\github\AutoULTGen\cmd_validation\vcstringinfo\Hevc_vdenc'
+ringpath = r'C:\projects\github\AutoULTGen\cmd_validation\vcstringinfo\HEVC-VDENC-Grits001 - 1947\VcsRingInfo'
 gen = 12
 source = r'C:\Users\jiny\gfx\gfx-driver\Source\media'
 #----------------------------------------------------------------
