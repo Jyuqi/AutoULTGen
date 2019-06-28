@@ -20,7 +20,8 @@ class CmdFinder(object):
         self.ringfilename = ''
         self.ringfilelist = []
         #
-        self.ringcmdset = set()
+        self.ringcmddic = {}  #count each cmd 
+        self.notfoundset = set()
         self.ringcmdmodify = {}
         self.df_dic = {}
         self.full_ringinfo = {}   # {'0':[{'MI_LOAD_REGISTER_IMM': ['1108101d', '00000244']},...]} , '0' is frame_no
@@ -78,21 +79,36 @@ class CmdFinder(object):
                 f.write(prettify(self.TestName))
         return prettify(self.TestName)
     
-    def modifyringcmd(self, wrong, right):
+    def modifyringcmd(self, wrong, right, index = 'all'):
+        # index == 'all' means changing all cmd
+        # index == [1,3] means changing specific index cmd
         #print(self.ringcmdset)
-        self.ringcmdset.remove(wrong)
-        self.ringcmdset.add(right)
-        self.ringcmdmodify[wrong] = right
+        self.ringcmdmodify[wrong] = (right, index)
+        if index == 'all':
+            self.ringcmddic[right] = self.ringcmddic.pop(wrong)
+        else:
+            self.ringcmddic[wrong] -= len(index)
+            if self.ringcmddic[wrong] == 0:
+                del self.ringcmddic[wrong]
+            if right in self.ringcmdmodify:
+                self.ringcmddic[right] += len(index)
+            else:
+                self.ringcmddic[right] = len(index)
 
     def undate_full_ringinfo(self):
         # full_ringinfo: {'0':[{'MI_LOAD_REGISTER_IMM': ['1108101d', '00000244']},...]} , '0' is frame_no
         new_full_ringinfo = {}
+        dic = {}
         for frame_no, ringinfo in self.full_ringinfo.items():
             new_ringinfo = []
             for pair in ringinfo:
                 for ringcmd, value_list in pair.items():
-                    if ringcmd in self.ringcmdmodify:
-                        new_ringinfo.append({self.ringcmdmodify[ringcmd] : value_list})
+                    if ringcmd in dic:
+                        dic[ringcmd] += 1
+                    else:
+                        dic[ringcmd] = 1
+                    if ringcmd in self.ringcmdmodify and (self.ringcmdmodify[ringcmd][1] == 'all' or self.ringcmdmodify[ringcmd][1] != 'all' and dic[ringcmd] in self.ringcmdmodify[ringcmd][1]):
+                        new_ringinfo.append({self.ringcmdmodify[ringcmd][0] : value_list})
                     else:
                         new_ringinfo.append(pair)
             new_full_ringinfo[frame_no] = new_ringinfo
@@ -309,6 +325,7 @@ class CmdFinder(object):
                                                      'class' : 'not found',
                                                      'index' : str(index)})
         print(ringcmd + ' not found')
+        self.notfoundset.add(ringcmd)
         return node
 
     def checkdw(self, node, value_list):
@@ -448,19 +465,19 @@ class CmdFinder(object):
                     frame_no_list = [int(re.search('(\d)-VcsRingInfo_0_0.txt', file).group(1)) for file in file_list]
                 elif len(file_list) == 1:
                     frame_no_list = [0]
-            self.ringfilelist = file_list
-            numset = set(frame_no_list)
-            self.Frame_Num = len(numset)
-            self.num_diff = min(numset)
+                self.ringfilelist = file_list
+                numset = set(frame_no_list)
+                self.Frame_Num = len(numset)
+                self.num_diff = min(numset)
 
-            for thing in self.ringfilelist:
-                if self.Frame_Num > 1:
-                    frame_no = str(int(re.search('(\d)-VcsRingInfo_0_0.txt', thing).group(1)) - self.num_diff)
-                elif self.Frame_Num == 1:
-                    frame_no = '0'
-                self.ringfilename = thing
-                self.txt2df()
-                self.extractdf(frame_no)
+                for thing in self.ringfilelist:
+                    if self.Frame_Num > 1:
+                        frame_no = str(int(re.search('(\d)-VcsRingInfo_0_0.txt', thing).group(1)) - self.num_diff)
+                    elif self.Frame_Num == 1:
+                        frame_no = '0'
+                    self.ringfilename = thing
+                    self.txt2df()
+                    self.extractdf(frame_no)
             
 
     def extractdf(self, frame_no, dfname = 'all'):
@@ -475,12 +492,15 @@ class CmdFinder(object):
         ringinfo = [] #stores single file ringinfo
         for i in df.index:
             #ringcmd = []
-            self.ringcmdset.add(df.loc[i,"Description"]) 
+            if df.loc[i,"Description"] in self.ringcmddic:
+                self.ringcmddic[df.loc[i,"Description"]] += 1
+            else:
+                self.ringcmddic[df.loc[i,"Description"]] = 1
             ringinfo.append({df.loc[i,"Description"]:[x for x in df.loc[i,"Header":].values.tolist() if str(x) != 'nan']}) 
         self.full_ringinfo[frame_no] = ringinfo
             #ringcmd.append([x for x in df.loc[i,"Header":].values.tolist() if str(x) != 'nan'])
             #full_ringinfo.append(ringcmd)
-        return self.full_ringinfo, self.ringcmdset
+        return self.full_ringinfo, self.ringcmddic
 
     def txt2df(self):
         #read ringcmdtringcmd text file into pd dataframe, which cmd stringcmd can be easily extracted
@@ -670,10 +690,10 @@ class CmdFinder(object):
 
 ##----------------------------------------------------------------
 ## show ringcmd if user want to update cmd
-#print(obj.ringcmdset)  #show cmd list
+#print(obj.ringcmddic)  #show cmd list
 #start = time.clock()
 #obj.modifyringcmd('CMD_HCP_VP9_RDOQ_STATE', 'HEVC_VP9_RDOQ_STATE_CMD')
-#print(obj.ringcmdset)  #show cmd list
+#print(obj.ringcmddic)  #show cmd list
 #obj.undate_full_ringinfo()
 #obj.updatexml()
 #elapsed = (time.clock() - start)
