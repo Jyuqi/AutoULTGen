@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'command_info.ui',
 # licensing of 'command_info.ui' applies.
 #
-# Created: Fri Jun 28 15:44:18 2019
+# Created: Tue Jul  2 09:37:19 2019
 #      by: pyside2-uic  running on PySide2 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -97,9 +97,9 @@ class Ui_FormCommandInfo(object):
         self.pushButtonSU = QtWidgets.QPushButton(self.cmdlist)
         self.pushButtonSU.setGeometry(QtCore.QRect(290, 700, 151, 28))
         self.pushButtonSU.setObjectName("pushButtonSU")
-        self.pushButtonNo = QtWidgets.QPushButton(self.cmdlist)
-        self.pushButtonNo.setGeometry(QtCore.QRect(470, 700, 93, 28))
-        self.pushButtonNo.setObjectName("pushButtonNo")
+        self.pushButtonSA = QtWidgets.QPushButton(self.cmdlist)
+        self.pushButtonSA.setGeometry(QtCore.QRect(470, 700, 93, 28))
+        self.pushButtonSA.setObjectName("pushButtonSA")
         self.treeWidgetCmdlist = QtWidgets.QTreeWidget(self.cmdlist)
         self.treeWidgetCmdlist.setGeometry(QtCore.QRect(0, 0, 241, 741))
         self.treeWidgetCmdlist.setWordWrap(False)
@@ -114,7 +114,7 @@ class Ui_FormCommandInfo(object):
         self.stackedWidget.addWidget(self.page_5)
 
         self.retranslateUi(FormCommandInfo)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(FormCommandInfo)
 
     def retranslateUi(self, FormCommandInfo):
@@ -141,5 +141,5 @@ class Ui_FormCommandInfo(object):
         self.tableWidgetCmdlist.horizontalHeaderItem(1).setText(QtWidgets.QApplication.translate("FormCommandInfo", "HitCount", None, -1))
         self.tableWidgetCmdlist.horizontalHeaderItem(2).setText(QtWidgets.QApplication.translate("FormCommandInfo", "Error", None, -1))
         self.pushButtonSU.setText(QtWidgets.QApplication.translate("FormCommandInfo", "Save Changes && Update", None, -1))
-        self.pushButtonNo.setText(QtWidgets.QApplication.translate("FormCommandInfo", "No", None, -1))
+        self.pushButtonSA.setText(QtWidgets.QApplication.translate("FormCommandInfo", "Show All", None, -1))
 

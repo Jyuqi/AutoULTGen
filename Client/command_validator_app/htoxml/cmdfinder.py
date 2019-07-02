@@ -22,6 +22,9 @@ class CmdFinder(object):
         #
         self.ringcmddic = {}  #count each cmd 
         self.notfoundset = set()
+        self.size_error = set()
+        self.size_error_cmd = {}
+        self.size_right_cmd = {}
         self.ringcmdmodify = {}
         self.df_dic = {}
         self.full_ringinfo = {}   # {'0':[{'MI_LOAD_REGISTER_IMM': ['1108101d', '00000244']},...]} , '0' is frame_no
@@ -70,6 +73,7 @@ class CmdFinder(object):
                         start1 = time.clock()
                         frame_group = self.mapcmd(ringcmd, value_list, frame_group, index)
                         #print("MAP Time used:", time.clock() - start1, ",  index = ", index)
+                    self.cmdsizecheck(ringcmd, index)
                     index += 1
         if output_path :
             with open( os.path.join(output_path ,  "mapringinfo.xml") , "w") as f:
@@ -131,6 +135,7 @@ class CmdFinder(object):
                         start1 = time.clock()
                         frame_group = self.mapcmd(ringcmd, value_list, frame_group, index)
                         #print("MAP Time used:", time.clock() - start1, ",  index = ", index)
+                        self.cmdsizecheck(ringcmd, index)
                     index += 1
 
         with open( os.path.join(self.ringpath ,  "mapringinfo.xml") , "w") as f:
@@ -138,7 +143,16 @@ class CmdFinder(object):
         return prettify(self.TestName)
 
 
-
+    def cmdsizecheck(self, ringcmd, index):
+        #add size_error cmd list
+        if ringcmd not in self.size_right_cmd:
+            self.size_right_cmd[ringcmd] = []
+        if ringcmd not in self.size_error_cmd:
+            self.size_error_cmd[ringcmd] = []
+        if index in self.size_error:
+            self.size_error_cmd[ringcmd].append(len(self.size_right_cmd[ringcmd]) + len(self.size_error_cmd[ringcmd]) + 1)
+        else:
+            self.size_right_cmd[ringcmd].append(len(self.size_right_cmd[ringcmd]) + len(self.size_error_cmd[ringcmd]) + 1)
     
     def setbitfield(self, current_group, fieldname, bit_value, bit_l, bit_h, dw_no, check = ''):
         #set bitfield attributes
@@ -177,6 +191,11 @@ class CmdFinder(object):
         for cmd in Element.findall(".//CMD"):
             if self.searchkword(ringcmd, cmd.attrib['name']):
                 dupe = copy.deepcopy(cmd)
+                
+                #check dwsize
+                if 'def_dwSize' in dupe.attrib and int(dupe.attrib['def_dwSize']) > input_dwsize:
+                    self.size_error.add(index)
+
                 dupe.attrib['input_dwsize'] = str(input_dwsize)
                 dupe.attrib['index'] = str(index)
 
@@ -195,6 +214,12 @@ class CmdFinder(object):
                         field.attrib['default_value'] = bit_value
                         field.attrib['max_value'] = bit_value
                         field.attrib['min_value'] = bit_value
+                        if fieldname == "DwordLength":
+                            dw_len = int(bit_value,16) 
+                            dupe.attrib['DW0_dwlen'] = str(dw_len)
+                            if not self.checkdwlen(dw_len, input_dwsize):
+                                self.size_error.add(index)
+                            
                 dupe= self.unmapdw( dupe, dw_no, value_list)
                 node.append(dupe) #insert the new node
                 #print("Search saved xml Time used:", time.clock() - start2)
@@ -202,6 +227,13 @@ class CmdFinder(object):
         else:
             return False
 
+    def checkdwlen(self, dw_len, input_dwsize):
+        if input_dwsize < 2 and dw_len ==0:
+            return True
+        if dw_len == input_dwsize-2:
+            return True
+        return False
+            
     def mapcmd(self, ringcmd, value_list, node, index):
         # map each ringcmd
         # para ringcmd: in ringcmdinfo cmd stringcmd, e.g.  "CMD_SFC_STATE_OBJECT"
@@ -270,6 +302,9 @@ class CmdFinder(object):
                                                                 if fieldname == "DwordLength":
                                                                     dw_len = int(bit_value,16) 
                                                                     structcmd_group.set('DW0_dwlen', str(dw_len))
+                                                                    # check dwsize
+                                                                    if not self.checkdwlen(dw_len, input_dwsize):
+                                                                        self.size_error.add(index)
 
                                                         current_group = dword_group
                                                 if unionorcmd.tag == 'otherCMD' and 'otherCMD' in unionorcmd.attrib:
@@ -302,6 +337,9 @@ class CmdFinder(object):
                                                 if 'name' in unionorcmd.attrib and unionorcmd.attrib['name'] == 'dwSize':
                                                     defined_dwSize = unionorcmd.attrib['value']
                                                     structcmd_group.set('def_dwSize', defined_dwSize)
+                                                    # check dwsize
+                                                    if int(defined_dwSize) > input_dwsize:
+                                                        self.size_error.add(index)
 
                                             #print(prettify(Result))
                                             #break

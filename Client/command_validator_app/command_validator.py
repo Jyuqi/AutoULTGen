@@ -22,8 +22,9 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_mainWindow()
         self.ui.setupUi(self)
-        self.ui.pushButtonGAll.clicked.connect(self.GAll)
-        #self.ui.pushButtonGAll.clicked.connect(self.read_command_info_from_xml)
+        self.ui.pushButtonGAll.clicked.connect(self.fillinput)
+        self.ui.pushButtonGAll.clicked.connect(lambda : self.ui.tabWidget.setCurrentIndex(1))
+        
 
         self.media_path = ''
         self.command_info = []
@@ -41,6 +42,7 @@ class MainWindow(QMainWindow):
         self.form = FormCommandInfo(self)
         
         #
+        self.last_dir = ''
         self.ui.SelectMediaPath.clicked.connect(partial(self.selectpath,'Media'))
         self.ui.SelectRinginfoPath.clicked.connect(partial(self.selectpath,'Ringinfo'))
         self.ui.SelectDDIInputPath.clicked.connect(partial(self.selectpath,'DDIInput'))
@@ -48,11 +50,26 @@ class MainWindow(QMainWindow):
         self.ui.lineEditMediaPath.setText(r'C:\Users\jiny\gfx\gfx-driver\Source\media')
         self.ui.lineEditDDIInputPath.setText(r'C:\projects\github\AutoULTGen\command_validator_app2\command_validator_app\vcstringinfo\HEVC-VDENC-Grits001-2125\DDI_Input')
         self.ui.lineEditRinginfoPath.setText(r'C:\projects\github\AutoULTGen\command_validator_app2\command_validator_app\vcstringinfo\HEVC-VDENC-Grits001-2125\VcsRingInfo')
-        self.typeinputpara = InputWindow(self)
-        self.obj = None
 
+    @Slot()
+    def fillinput(self):
+        self.ui.buttonBox.accepted.connect(self.addHeader)
+        self.ui.buttonBox.rejected.connect(self.reject)
+        #self.ui.SelectPath.clicked.connect(self.selectpath)
+        self.ui.InputPathText.setText(self.ui.lineEditDDIInputPath.text())
+        self.ui.Component_input.setText(self.ui.lineEditComponent.text())
+        self.ui.GUID_input.setText('DXVA2_Intel_LowpowerEncode_HEVC_Main')
+        self.ui.Width_input.setText('256')
+        self.ui.Height_input.setText('192')
+        self.ui.RawTileType_input.setText('1')
+        self.ui.RawFormat_input.setText('25')
+        self.ui.ResTileType_input.setText('4')
+        self.ui.ResFormat_input.setText('62')
+        self.ui.EncFunc_input.setText('4')
+        self.ui.FrameNum_input.setReadOnly(True)
+        #self.ui.FrameNum_input.setText('1')
+        self.FrameNumdiff = 0
 
-    
     @Slot()
     def generate_from_bspec(self):
         url = self.ui.lineEditURL.text()
@@ -246,15 +263,20 @@ class MainWindow(QMainWindow):
             table.resizeColumnsToContents()
             table.resizeRowsToContents()
 
+
     @Slot()
     def show_command_info(self):
         # self.form.ui = Form()
         # self.form.ui.setupUi(self.form)
         self.form.setWindowTitle(self.test_name)
         tree = self.form.ui.treeWidgetCmd
-        tree.itemDoubleClicked.connect(self.form.save)
+        header = self.form.ui.treeWidgetCmd.header()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        header.setStretchLastSection(False)
+        
+        #tree.itemDoubleClicked.connect(self.form.save)
         tree.itemDoubleClicked.connect(self.show_command_table)
-        tree.itemClicked.connect(self.form.save)
+        #tree.itemClicked.connect(self.form.save)
         tree.itemClicked.connect(self.show_command_table)
         tree.itemChanged.connect(self.form.update_tree_checkstate)
         test = QTreeWidgetItem(tree)
@@ -334,7 +356,7 @@ class MainWindow(QMainWindow):
         #main(self.ringinfo_path, self.command_xml, self.media_path)
         #init
         start = time.clock()
-        self.obj = CmdFinder(self.media_path, 12, self.ringinfo_path)
+        #self.obj = CmdFinder(self.media_path, 12, self.ringinfo_path)
         Buf = self.obj.h2xml()
         self.obj.extractfull()
         self.obj.writexml()
@@ -343,6 +365,7 @@ class MainWindow(QMainWindow):
         #
         print('end parse command file')
         self.ui.logBrowser.append('End parse vcs ring info\n')
+        self.ui.logBrowser.append('Save xml in '+ self.ringinfo_path + '\n')
 
     def read_info_from_ui(self):
         if self.ui.lineEditComponent.text():
@@ -364,11 +387,13 @@ class MainWindow(QMainWindow):
         self.media_path = self.ui.lineEditMediaPath.text()
         self.ringinfo_path = self.ui.lineEditRinginfoPath.text()
         self.test_name = self.ui.lineEditTestName.text()
-
+        # build CMDFinder obj
+        self.obj = CmdFinder(self.media_path, 12, self.ringinfo_path)
+        
 
     def read_command_info_from_xml(self):
-        self.read_info_from_ui()
-        self.parse_command_file()
+        #self.read_info_from_ui()
+        #self.parse_command_file()
         # if self.ui.lineEditFrame.text():
         #     self.frame_num = int(self.ui.lineEditFrame.text())
         # else:
@@ -581,10 +606,17 @@ class MainWindow(QMainWindow):
     @Slot()
     def selectpath(self, name):
         #open file dialog and display directory in the text edit area
-        dir = QFileDialog.getExistingDirectory(self, "Open Directory",
-                                       "/home",
-                                       QFileDialog.ShowDirsOnly
-                                       | QFileDialog.DontResolveSymlinks)
+        if self.last_dir:
+            dir = QFileDialog.getExistingDirectory(self, "Open Directory",
+                                           self.last_dir,
+                                           QFileDialog.ShowDirsOnly
+                                           | QFileDialog.DontResolveSymlinks) 
+        else:
+            dir = QFileDialog.getExistingDirectory(self, "Open Directory",
+                                           "/home",
+                                           QFileDialog.ShowDirsOnly
+                                           | QFileDialog.DontResolveSymlinks)
+        self.last_dir = dir
         if name == 'Media':
             self.ui.lineEditMediaPath.setText(dir)
         if name == 'DDIInput':
@@ -593,13 +625,94 @@ class MainWindow(QMainWindow):
         if name == 'Ringinfo':
             self.ui.lineEditRinginfoPath.setText(dir)
 
+        
     @Slot()
-    def GAll(self):
-        #self.read_command_info_from_xml()
-        QCoreApplication.processEvents()
-        self.typeinputpara.show()
-        # how to wait to execute next evernt after closing 1 event ?
-        #app.exec_()
+    def addHeader(self):
+        # click OK, generate xml header
+        self.Component = self.ui.Component_input.text()
+        self.GUID = self.ui.GUID_input.text()
+        self.Width = self.ui.Width_input.text()
+        self.Height = self.ui.Height_input.text()
+        self.inputpath = self.ui.InputPathText.text()
+        self.RawTileType = self.ui.RawTileType_input.text()
+        self.RawFormat = self.ui.RawFormat_input.text()
+        self.ResTileType = self.ui.ResTileType_input.text()
+        self.ResFormat = self.ui.ResFormat_input.text()
+        self.EncFunc = self.ui.EncFunc_input.text()
+        self.FrameNum = self.ui.FrameNum_input.text()
+        # get real Frame Number according to input files
+        os.chdir(self.inputpath)
+        Frameset = set()
+        for f in os.listdir(self.inputpath):
+            pattern = re.search('^(\d)-0.*DDIEnc_(.*)Params_._Frame', f)
+            if pattern:
+                Frameset.add(int(pattern.group(1)))
+        self.FrameNumdiff = min(Frameset) - 0
+        self.FrameNum = str(len(Frameset))
+        self.ui.FrameNum_input.setText(self.FrameNum)
+        # combine input files and parameters
+        self.combine()
+        self.ui.logBrowser.append("The input file has been generated in " + self.inputpath +".\n")
+        #pop out message box
+        #msgBox = QMessageBox()
+        #msgBox.setText("The input file has been generated.")
+        #msgBox.exec_()
+        
+        self.read_info_from_ui()
+        self.parse_command_file()
+        self.read_command_info_from_xml()
+        self.ui.tabWidget.setCurrentIndex(0)
+        if self.ui.lineEditFrame.text() != self.FrameNum:
+            msgBox = QMessageBox()
+            msgBox.setText("Inconsistent Frame number!")
+            msgBox.exec_()
+        self.form.showcmdlist()
+        
+    
+    @Slot()
+    def reject(self):
+        # click cancel, exit
+        sys.exit(app.exec_())
+        
+
+    def combine(self):
+        #combine ddi_input text files and add header infomation
+        
+        with open('encodeHevcCQPInput.dat','w') as wfd:
+            #wfd.write('<Header Component=%s  GUID=%s Width=%s Height=%s OutputFormat=%s>\n' % (self.Component, self.GUID, self.Width, self.Height, self.OutputFormat))
+            wfd.write(f'''<Header>
+Component = {self.Component}
+GUID = DXVA2_Intel_LowpowerEncode_HEVC_Main
+Width = {self.Width}
+Height = {self.Height}
+#MOS_TILE_Y
+RawTileType = {self.RawTileType}
+#Format_NV12
+RawFormat = {self.RawFormat}
+#MOS_TILE_LINEAR
+ResTileType = {self.ResTileType}
+#Format_Buffer
+ResFormat = {self.ResFormat}
+#ENCODE_ENC_PAK, 4
+EncFunc = {self.EncFunc}
+FrameNum = {self.FrameNum}
+''')
+            #wfd.write('</Header>')
+             
+            for f in os.listdir(self.inputpath):
+                pattern = re.search('^(\d)-0.*DDIEnc_(.*)Params_._Frame', f)
+                if pattern:
+                    FrameNo = str(int(pattern.group(1))-self.FrameNumdiff)
+                    ParaGroup = pattern.group(2)
+                    wfd.write('<Frame No=%s  Param=%s >\n' % (FrameNo, ParaGroup))
+                    with open(f, 'r') as file:
+                        content = file.readlines()
+                        new_content = []
+                        for line in content:
+                            clean_line = line.replace('\00', '')
+                            new_content.append(clean_line)
+                    wfd.writelines(new_content)
+                    #wfd.write('</Frame>\n')
         
 
 
@@ -625,7 +738,8 @@ class FormCommandInfo(QWidget):
         self.ui.stackedWidget.setCurrentIndex(1)   #set the all infomation page as default page
         self.ui.pushButtonSCL.clicked.connect(lambda : self.ui.stackedWidget.setCurrentIndex(1))  #show cmd name list
         self.ui.pushButtonSCL.clicked.connect(self.showcmdlist)  #show cmd name list
-        self.ui.pushButtonNo.clicked.connect(lambda : self.ui.stackedWidget.setCurrentIndex(0))  #show cmd name list
+        self.ui.pushButtonSA.clicked.connect(lambda : self.ui.stackedWidget.setCurrentIndex(0))  #show cmd name list
+        self.ui.pushButtonSU.clicked.connect(self.updateinfo)
         
 
     def show_message(self, inf, title):
@@ -807,122 +921,99 @@ class FormCommandInfo(QWidget):
 
     @Slot()
     def showcmdlist(self):
-        table = self.ui.tableWidgetCmdlist
+        print(self.main_window.obj.size_error_cmd)
+        print(self.main_window.obj.size_error)
+        self.ui.tableWidgetCmdlist.clearContents()
+        self.ui.tableWidgetCmdlist.setRowCount(0)
+        self.table = self.ui.tableWidgetCmdlist
+        self.table.cellDoubleClicked.connect(self.modifycmd)
         row = 0
         #print(self.main_window.obj.ringcmddic)
         for cmd, index in self.main_window.obj.ringcmddic.items():
-            table.insertRow(row)
-            table.setItem(row, 0, QTableWidgetItem(cmd))
-            table.setItem(row, 1, QTableWidgetItem(str(index)))
+            self.table.insertRow(row)
+            self.table.setItem(row, 0, QTableWidgetItem(cmd))
+            self.table.setItem(row, 1, QTableWidgetItem(str(index)))
             if cmd in self.main_window.obj.notfoundset:
-                table.setItem(row, 2, QTableWidgetItem('Not Found'))
+                self.table.setItem(row, 2, QTableWidgetItem('Not Found'))
+            if self.main_window.obj.size_error_cmd[cmd]:
+                warning = 'Size Error in position: '
+                for i in self.main_window.obj.size_error_cmd[cmd]:
+                    warning += str(i) + ','
+                warning = warning.strip(',')
+                self.table.setItem(row, 2, QTableWidgetItem(warning))
             row += 1
-
-
-
-
-class InputWindow(QMainWindow):
-    def __init__(self, main_window):
-        super(InputWindow, self).__init__()
-        self.ui = Ui_InputWindow()
-        self.ui.setupUi(self)
-        self.main_window = main_window
-        self.ui.buttonBox.accepted.connect(self.addHeader)
-        self.ui.buttonBox.rejected.connect(self.reject)
-        #self.ui.SelectPath.clicked.connect(self.selectpath)
-        self.ui.InputPathText.setText(self.main_window.ui.lineEditDDIInputPath.text())
-        self.ui.Component_input.setText(self.main_window.ui.lineEditComponent.text())
-        self.ui.GUID_input.setText('DXVA2_Intel_LowpowerEncode_HEVC_Main')
-        self.ui.Width_input.setText('256')
-        self.ui.Height_input.setText('192')
-        self.ui.RawTileType_input.setText('1')
-        self.ui.RawFormat_input.setText('25')
-        self.ui.ResTileType_input.setText('4')
-        self.ui.ResFormat_input.setText('62')
-        self.ui.EncFunc_input.setText('4')
-        self.ui.FrameNum_input.setReadOnly(True)
-        #self.ui.FrameNum_input.setText('1')
-        self.FrameNumdiff = 0
-
+        self.cmdlistrow = row
+        self.table.resizeColumnsToContents()
+        self.table.resizeRowsToContents()
 
     @Slot()
-    def addHeader(self):
-        # click OK, generate xml header
-        self.Component = self.ui.Component_input.text()
-        self.GUID = self.ui.GUID_input.text()
-        self.Width = self.ui.Width_input.text()
-        self.Height = self.ui.Height_input.text()
-        self.inputpath = self.ui.InputPathText.text()
-        self.RawTileType = self.ui.RawTileType_input.text()
-        self.RawFormat = self.ui.RawFormat_input.text()
-        self.ResTileType = self.ui.ResTileType_input.text()
-        self.ResFormat = self.ui.ResFormat_input.text()
-        self.EncFunc = self.ui.EncFunc_input.text()
-        self.FrameNum = self.ui.FrameNum_input.text()
-        # get real Frame Number according to input files
-        os.chdir(self.inputpath)
-        Frameset = set()
-        for f in os.listdir(self.inputpath):
-            pattern = re.search('^(\d)-0.*DDIEnc_(.*)Params_._Frame', f)
-            if pattern:
-                Frameset.add(int(pattern.group(1)))
-        self.FrameNumdiff = min(Frameset) - 0
-        self.FrameNum = str(len(Frameset))
-        self.ui.FrameNum_input.setText(self.FrameNum)
-        # combine input files and parameters
-        self.combine()
-        self.main_window.ui.logBrowser.append("The input file has been generated.\n")
+    def modifycmd(self, row, column):
+        #print("Row %d and Column %d was clicked" % (row, column))
+        item = self.table.item(row, column)
+        cmdname = self.table.item(row, 0).text()
+        #print(item.text())
+        minimum_value = 1
+        maximum_value = int(self.table.item(row, 1).text())
+        index = ''
+        new = ''
+        #if column == 0:
+        #    new, ok = QInputDialog.getText(self.table,  "Modify", "CMD Name", QLineEdit.Normal, item.text())
+        #    if ok:
+        #        if new != cmdname:
+        #            self.table.setItem(row, 0, QTableWidgetItem(new))
+        #            self.table.item(row, 0).setTextColor(QColor(255,0,0))
+        #            index = 'all'
+        #if column == 1:
+        new, ok = QInputDialog.getText(self.table,  "Modify", "CMD Name", QLineEdit.Normal, self.table.item(row, 0).text())
+        if ok:
+            input_index, ok = QInputDialog.getText(self.table,  "Modify", "\tScope(1-%s)\ne.g. 1-4,6" %maximum_value, QLineEdit.Normal, 'Apply to All')
+            if input_index != 'Apply to All':
+                index = []
+                list = input_index.strip().split(',')
+                for i in list:
+                    if '-' in i:
+                        i = i.split('-')
+                        index = list(range(int(i[0]), int(i[1])+1))
+                    else:
+                        index.append(int(i))
+                length = len(index)
+                if int(maximum_value) > length:
+                    self.table.setItem(row, 1, QTableWidgetItem(str(maximum_value-length)))
+                    self.table.item(row, 1).setTextColor(QColor(255,0,0))
+                    self.table.insertRow(row+1)
+                    self.table.setItem(row+1, 1, QTableWidgetItem(str(length)))
+                    self.table.item(row+1, 1).setTextColor(QColor(255,0,0))
+                    self.table.setItem(row+1, 0, QTableWidgetItem(new))
+                    self.table.item(row+1, 0).setTextColor(QColor(255,0,0))
+                    self.cmdlistrow += 1
+                elif int(maximum_value) == length:
+                    index = 'all'
+            else:
+                index = 'all'
+            if new != cmdname and index == 'all':
+                self.table.setItem(row, 0, QTableWidgetItem(new))
+                self.table.item(row, 0).setTextColor(QColor(255,0,0))
+        if new and index:
+            print(self.main_window.obj.ringcmddic)
+            self.main_window.obj.modifyringcmd(cmdname, new, index)
+            print(self.main_window.obj.ringcmddic)
+
+    @Slot()
+    def updateinfo(self):
+        self.main_window.obj.undate_full_ringinfo()
+        self.main_window.obj.updatexml()
+        self.main_window.ui.logBrowser.append('Update xml\n')
+        self.ui.tableWidgetCmd.clearContents()
+        self.ui.treeWidgetCmd.clear()
+        self.main_window.ui.logBrowser.append('Reload...\n')
         #pop out message box
         msgBox = QMessageBox()
-        msgBox.setText("The input file has been generated.")
+        msgBox.setText("Success!")
         msgBox.exec_()
-        
         self.main_window.read_command_info_from_xml()
-    
-    @Slot()
-    def reject(self):
-        # click cancel, exit
-        sys.exit(app.exec_())
-        
+        self.showcmdlist()
 
-    def combine(self):
-        #combine ddi_input text files and add header infomation
-        
-        with open('encodeHevcCQPInput.dat','w') as wfd:
-            #wfd.write('<Header Component=%s  GUID=%s Width=%s Height=%s OutputFormat=%s>\n' % (self.Component, self.GUID, self.Width, self.Height, self.OutputFormat))
-            wfd.write(f'''<Header>
-Component = {self.Component}
-GUID = DXVA2_Intel_LowpowerEncode_HEVC_Main
-Width = {self.Width}
-Height = {self.Height}
-#MOS_TILE_Y
-RawTileType = {self.RawTileType}
-#Format_NV12
-RawFormat = {self.RawFormat}
-#MOS_TILE_LINEAR
-ResTileType = {self.ResTileType}
-#Format_Buffer
-ResFormat = {self.ResFormat}
-#ENCODE_ENC_PAK, 4
-EncFunc = {self.EncFunc}
-FrameNum = {self.FrameNum}
-''')
-            #wfd.write('</Header>')
-             
-            for f in os.listdir(self.inputpath):
-                pattern = re.search('^(\d)-0.*DDIEnc_(.*)Params_._Frame', f)
-                if pattern:
-                    FrameNo = str(int(pattern.group(1))-self.FrameNumdiff)
-                    ParaGroup = pattern.group(2)
-                    wfd.write('<Frame No=%s  Param=%s >\n' % (FrameNo, ParaGroup))
-                    with open(f, 'r') as file:
-                        content = file.readlines()
-                        new_content = []
-                        for line in content:
-                            clean_line = line.replace('\00', '')
-                            new_content.append(clean_line)
-                    wfd.writelines(new_content)
-                    #wfd.write('</Frame>\n')
+
         
 
 def item_text_to_dec(s):
