@@ -13,6 +13,7 @@ import time
 
 
 class CmdFinder(object):
+    #find ringinfo cmd in mhw header file, and map cmd value to each dword field, set bitfield and check state. 
     def __init__(self, source, gen, ringpath, Buf = None, output_path = ''):
         self.source = source
         self.gen = gen

@@ -3,6 +3,7 @@ import re
 import time
 from collections import OrderedDict
 class GetEnumMember(object):
+    #This module aims at get input ui combobox contents from file.(currently dxvaencode_lh.h and mos_resource_defs.h as listed)
     #attrib: EncFunc
     #file : ...\Source\media\media_embargo\windows\common\codec\ddi\d3d9\dxvaencode_lh.h
     #typedef enum tagENCODE_FUNC

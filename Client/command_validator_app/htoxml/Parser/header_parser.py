@@ -6,10 +6,7 @@ import os
 import re
 
 class HeaderParser(object):
-    """
-
-    """
-
+    # convert mhw file to xml
     def __init__(self, name, path):
         """
 

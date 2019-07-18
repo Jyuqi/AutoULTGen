@@ -1,0 +1,204 @@
+<!DOCTYPE html []>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="MarkdownViewer++" />
+    <title>Details.md</title>
+    <style type="text/css">
+            
+/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
+td, h1, h2, h3, h4, h5, p, ul, ol, li {
+    page-break-inside: avoid; 
+}
+
+        </style>
+  </head>
+  <body>
+    <h1 id="command-validator-app">COMMAND VALIDATOR APP</h1>
+    <p>Let's introduce how the command validator app works.
+Every module used is listed as followed.</p>
+    <h2 id="command_validator.py">command_validator.py</h2>
+    <p>It's the main module. It defines all the events of pushbutton, combobox, dialog.
+Try to start UI from running this module.</p>
+    <p>Within it 3 classes are integrated.</p>
+    <h3 id="mainwindow">MainWindow</h3>
+    <p>As you can see, the first UI interface contains 2 tab widgets, main and input.</p>
+    <p>
+      <em>[Main]</em>
+    </p>
+    <img src="file:///./screenshots/main.png" alt="png" width="600" />
+    <p>For each TextEdit field, users should satisfy certain requirements.</p>
+    <ol>
+      <li>TestName</li>
+    </ol>
+    <ul>
+      <li>input testname like <code>encodeHevcCQ</code></li>
+    </ul>
+    <ol start="2">
+      <li>Command Path</li>
+    </ol>
+    <ul>
+      <li>It should be the folder you store all the mhw_xxx.h files that you want to use.
+For general search, you can choose <code>....\gfx\gfx-driver\Source\media</code> as your command path.
+If you want to search specifically, click <strong>Add Folder</strong> button.</li>
+    </ul>
+    <img src="file:///./screenshots/Addpath.png" alt="png" width="600" />
+    <p>In this interface you can adjust search priority by folder order, but path need end in hw(if you want
+to add more than 1 folder). Don't forget to click save button before close this window.
+The first folder will be used to generate base media path: <code>....\gfx\gfx-driver\Source</code>. We will use
+base media path to generate your workspace(talk it later).</p>
+    <ol start="3">
+      <li>Ringinfo path</li>
+    </ol>
+    <ul>
+      <li>This path should contain vcsringinfo with name like <code>1-VcsRingInfo_0_0.txt</code>. The leading <code>1</code>
+means the first frame. But in the final result, we will make <code>0</code> as the first frame number.</li>
+    </ul>
+    <img src="file:///./screenshots/ringinfopath.png" alt="png" width="300" />
+    <ol start="4">
+      <li>DDI input path</li>
+    </ol>
+    <ul>
+      <li>This path should contain ddiinput with name like <code>0-0_1_DDIEnc_SlcParams_I_Frame.txt</code>.</li>
+    </ul>
+    <img src="file:///./screenshots/ddiinputpath.png" alt="png" width="300" />
+    <ol start="5">
+      <li>Platform</li>
+    </ol>
+    <ul>
+      <li>read from <code>igfxfmid.h</code>. This doesn't really matter in my search logic because the platform
+name is not unified with cmd class name in mhw header. So while searching, I simply search class
+name without <code>_x</code> first, then name with <code>_x</code>.</li>
+    </ul>
+    <ol start="6">
+      <li>Component</li>
+    </ol>
+    <ul>
+      <li>We have introduced how we find base media path. If you select <code>VP</code>, your workspace would be
+<code>.....\Source\media\media_embargo\media_driver_next\ult\windows\vp\test\test_data</code>. Else, your workspace would
+be <code>.....\Source\media\media_embargo\media_driver_next\ult\windows\codec\test\test_data</code>.</li>
+    </ul>
+    <ol start="7">
+      <li>Frame</li>
+    </ol>
+    <ul>
+      <li>Auto fill when you finish editing Ringinfo path</li>
+    </ul>
+    <p>Click <code>Generate All</code> button, we will switch to the second tab widget: input.
+We organize different testname infomation by seperate folders in your workspace. For example, if your
+input tesname is <code>aaa</code>, then all the infomation related will be saved in <code>.....\test\test_data\aaa</code>.</p>
+    <p>
+      <em>[input-new testname]</em>
+    </p>
+    <img src="file:///./screenshots/input.png" alt="png" width="600" />
+    <ul>
+      <li>The first 2 text fields(Input Path &amp; Component) inherit from main widget. If this is a new tesname, you need to input the infomation
+listed. If you need to rewrite a testname, this will load old configuration from files.</li>
+    </ul>
+    <p>
+      <em>[input-existed testname]</em>
+    </p>
+    <img src="file:///./screenshots/input_u.png" alt="png" width="600" />
+    <ul>
+      <li>GUID should be str, Width and Height should be int(Add 0x if you prefer to use int16).</li>
+    </ul>
+    <p>As for next 5 comboboxes, <strong>get_enum_member.py</strong> script is written to load their dropdown lists.</p>
+    <ul>
+      <li>RawTileType, ResTileType attributes load dropdown lists from</li>
+    </ul>
+    <p>
+      <code>...\Source\media\media_driver\agnostic\common\os\mos_resource_defs.h</code>
+    </p>
+    <pre>
+      <code>	#typedef enum _MOS_TILE_TYPE
+	#{
+	#    MOS_TILE_X,
+	#    MOS_TILE_Y,
+	#    MOS_TILE_YF,            // 4KB tile
+	#    MOS_TILE_YS,            // 64KB tile
+	#    MOS_TILE_LINEAR,
+	#    MOS_TILE_INVALID
+	#} MOS_TILE_TYPE;
+</code>
+    </pre>
+    <ul>
+      <li>RawFormat, ResFormat attributes also load dropdown lists from</li>
+    </ul>
+    <p>
+      <code>...\Source\media\media_driver\agnostic\common\os\mos_resource_defs.h</code>
+    </p>
+    <pre>
+      <code>	#typedef enum _MOS_FORMAT
+	#{
+	#   ...
+	#   Format_NV12     ,
+	#   ...
+	#   Format_Buffer      ,
+	#   ...
+	#} MOS_FORMAT, *PMOS_FORMAT;
+	
+</code>
+    </pre>
+    <ul>
+      <li>EncFunc attribute loads dropdown lists from</li>
+    </ul>
+    <p>
+      <code>...\Source\media\media_embargo\windows\common\codec\ddi\d3d9\dxvaencode_lh.h</code>
+    </p>
+    <pre>
+      <code>	#typedef enum tagENCODE_FUNC
+	#{
+	#    ENCODE_ENC          = 0x0001,
+	#    ENCODE_PAK          = 0x0002,
+	#    ENCODE_ENC_PAK      = 0x0004,
+	#    ENCODE_HYBRIDPAK    = 0x0008,
+	#    ENCODE_WIDI         = 0x8000
+	#} ENCODE_FUNC;
+	
+</code>
+    </pre>
+    <ul>
+      <li>FrameNum is autofilled when you finish editing ddiinputpath in the main widget.</li>
+    </ul>
+    <p>Then, click <code>Generate</code> or <code>Update</code> button, combine all the DDIinput files in the path and
+your configuration in a new file (Name rule: TestName+Input.dat) in your workspace.</p>
+    <img src="file:///./screenshots/aaaainput.png" alt="png" width="250" />
+    <img src="file:///./screenshots/aaaainput2.png" alt="png" width="450" />
+    <h2 id="step-1">Step 1</h2>
+    <ul>
+      <li>Be awesome</li>
+      <li>Make things faster</li>
+    </ul>
+    <h2 id="installation">Installation</h2>
+    <p>Install project by running:</p>
+    <pre>
+      <code>install project
+</code>
+    </pre>
+    <h2 id="contribute">Contribute</h2>
+    <ul>
+      <li>Issue Tracker: github.com/$project/$project/issues</li>
+      <li>Source Code: github.com/$project/$project</li>
+    </ul>
+    <h2 id="support">Support</h2>
+    <p>If you are having issues, please let us know.
+We have a mailing list located at: project@google-groups.com</p>
+    <h2 id="other-scripts-you-may-need-in-the-future">Other scripts you may need in the future</h2>
+    <h2 id="mvfiles.py">mvfiles.py</h2>
+    <h3 id="countlines">countlines</h3>
+    <p>count lines all the mhw header files  in desirable folder</p>
+    <h3 id="cpfiles">cpfiles</h3>
+    <p>copy a batch of files to a batch of target locations</p>
+    <h3 id="clrfiles">clrfiles</h3>
+    <p>clear files created in the previous opration</p>
+    <h2 id="elementtree_pretty.py">ElementTree_pretty.py</h2>
+    <p>pretty print XML elemt with indent</p>
+    <blockquote>
+      <pre>
+        <code>  &lt;class name="mhw_vdbox_vdenc_g12_X"&gt;
+      &lt;public&gt;
+</code>
+      </pre>
+    </blockquote>
+  </body>
+</html>
