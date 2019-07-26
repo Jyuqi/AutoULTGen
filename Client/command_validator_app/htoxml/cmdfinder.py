@@ -14,7 +14,7 @@ import time
 
 
 class CmdFinder(object):
-    def __init__(self, source, gen, ringpath, Buf = None, output_path = ''):
+    def __init__(self, source, gen, ringpath):
         self.source = source
         self.gen = gen
         self.ringpath = ringpath
@@ -40,31 +40,9 @@ class CmdFinder(object):
         self.filter = ['mi', 'hcp']
         self.Frame_Num = 0
         self.specialcmd = ['MI_STORE_DATA_IMM', 'MI_FLUSH_DW'] #specialcmd has different dwsize rules
-        #general dwsize rules:
-        # 
-        if Buf:
-            self.Buf = Buf
-        else:
-            self.Buf = Element('Buf')
+        self.source_dic = {} # {source1:1, source2:2} record source-element index
+        self.Buf = Element('Buf')   ##save all the parsed h2xml info 
         
-
-    def xmlbuf(self):
-         # use for Test, search buf is in h2xml part
-        # save all xml info into self.buf
-        # if create xml seperately for each h
-        for r,d,f in os.walk(self.source):
-            #filter test folder
-            if r'\ult\agnostic\test' not in r:
-                continue
-            os.chdir(r)
-            for thing in f:
-                # find required cmd in xml file
-                    if thing.startswith('mhw_') and thing.endswith('.h.xml'):
-                        if  self.gen == 'all' or self.gen != 'all' and str(self.gen) in thing:
-                            tree = ET.parse(thing)
-                            root = tree.getroot()
-                            self.Buf.append(copy.deepcopy(root))
-        #print(prettify(self.Buf))
         
     def writexml(self, output_path = ''):
         if output_path:
@@ -261,134 +239,137 @@ class CmdFinder(object):
         #                    if  self.gen == 'all' or self.gen != 'all' and str(self.gen) in thing:
                                 #tree = ET.parse(thing)
                                 #root = tree.getroot()
-        for pattern in self.searchpattern:
-            for Class in self.Buf.findall('./content/class'):
-                if 'name' in Class.attrib and re.search(pattern, Class.attrib['name'].lower()) and [i for i in self.filter if i not in ringcmd.lower() or i in ringcmd.lower() and i in Class.attrib['name'].lower()]:
-                                #for Class in root.findall('class'):
-                                    for structcmd in Class.iter('struct'):
-                                        # search cmd in all the local files
-                                        if 'name' in structcmd.attrib and self.searchkword(ringcmd, structcmd.attrib['name']):
-                                            #Class_group = SubElement(ringcmd_group, 'class', {'name' : Class.attrib['name']})  #debug
-                                            input_dwsize = len(value_list)
-                                            structcmd_group = SubElement(node, 'CMD',  {'name' : structcmd.attrib['name'],
-                                                                                        'class' : Class.attrib['name'],
-                                                                                        'index' : str(index),
-                                                                                        'input_dwsize' : str(input_dwsize)})
-                                            dw_len = 0
-                                            dw_no = ''
-                                            if not self.ringcmdclass[ringcmd]:
-                                                self.ringcmdclass[ringcmd] = Class.attrib['name']
-                                            for unionorcmd in structcmd.findall("./"):  #select all the direct children
+        
+        for source in self.source:
+            elem = self.Buf.find("./Elem[@index='%s']" % str(self.source_dic.get(source)))
+            for Class in elem.findall('./content/class'):
+                for pattern in self.searchpattern:
+                    if 'name' in Class.attrib and re.search(pattern, Class.attrib['name'].lower()) and [i for i in self.filter if i not in ringcmd.lower() or i in ringcmd.lower() and i in Class.attrib['name'].lower()]:
+                                    #for Class in root.findall('class'):
+                                        for structcmd in Class.iter('struct'):
+                                            # search cmd in all the local files
+                                            if 'name' in structcmd.attrib and self.searchkword(ringcmd, structcmd.attrib['name']):
+                                                #Class_group = SubElement(ringcmd_group, 'class', {'name' : Class.attrib['name']})  #debug
+                                                input_dwsize = len(value_list)
+                                                structcmd_group = SubElement(node, 'CMD',  {'name' : structcmd.attrib['name'],
+                                                                                            'class' : Class.attrib['name'],
+                                                                                            'index' : str(index),
+                                                                                            'input_dwsize' : str(input_dwsize)})
+                                                dw_len = 0
+                                                dw_no = ''
+                                                if not self.ringcmdclass[ringcmd]:
+                                                    self.ringcmdclass[ringcmd] = Class.attrib['name']
+                                                for unionorcmd in structcmd.findall("./"):  #select all the direct children
 
-                                                if unionorcmd.tag == 'union' and 'name' in unionorcmd.attrib and 'DW' in unionorcmd.attrib['name']:
-                                                    dw_no = unionorcmd.attrib['name'].strip('DW')
-                                                    val_str = self.findval(value_list, dw_no)['val_str']
-                                                    dword_group = SubElement(structcmd_group, 'dword', {'NO' : dw_no,
-                                                                                                        'value': val_str})
-                                                    current_group = dword_group
-                                                    for s in unionorcmd.findall('struct'):
-                                                        # 1 dword has several objs
-                                                        if 'name' in s.attrib:
-                                                            obj_group = SubElement(current_group, s.attrib['name'], {'value': val_str})
-                                                            current_group = obj_group
+                                                    if unionorcmd.tag == 'union' and 'name' in unionorcmd.attrib and 'DW' in unionorcmd.attrib['name']:
+                                                        dw_no = unionorcmd.attrib['name'].strip('DW')
+                                                        val_str = self.findval(value_list, dw_no)['val_str']
+                                                        dword_group = SubElement(structcmd_group, 'dword', {'NO' : dw_no,
+                                                                                                            'value': val_str})
+                                                        current_group = dword_group
+                                                        for s in unionorcmd.findall('struct'):
+                                                            # 1 dword has several objs
+                                                            if 'name' in s.attrib:
+                                                                obj_group = SubElement(current_group, s.attrib['name'], {'value': val_str})
+                                                                current_group = obj_group
 
-                                                        last_bit_h = -1 #used to check bitfield
-                                                        for elem in s.findall("./"):
-
-                                                            #check bitfield---
-                                                            if last_bit_h>0 and not int(last_bit_h) % 32:
-                                                                #check if last bit field end with 32/64
-                                                                print(ringcmd+' bitfield_h =%s error!\n' % bit_h)
-                                                                self.bitfield_error_cmd.add(ringcmd)
                                                             last_bit_h = -1 #used to check bitfield
-                                                            #check bitfield end---
-
-                                                            if 'name' in elem.attrib:
-                                                                fieldname = elem.attrib['name']
-                                                                if 'bitfield' in elem.attrib :
-                                                                    bit_item = elem.attrib['bitfield'].split(',')  #bitfield="0,  5"
-                                                                else:
-                                                                    bit_item = []
-                                                                bit_value, bit_l, bit_h = self.findbitval(binv_list, bit_item, dw_no)
+                                                            for elem in s.findall("./"):
 
                                                                 #check bitfield---
-                                                                if last_bit_h == int(bit_l):
+                                                                if last_bit_h>0 and not int(last_bit_h) % 32:
+                                                                    #check if last bit field end with 32/64
+                                                                    print(ringcmd+' bitfield_h =%s error!\n' % bit_h)
                                                                     self.bitfield_error_cmd.add(ringcmd)
-                                                                last_bit_h = int(bit_h)
+                                                                last_bit_h = -1 #used to check bitfield
                                                                 #check bitfield end---
 
-                                                                if structcmd_group.attrib['name'] == 'MI_NOOP_CMD':
-                                                                    current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no, 'N')
-                                                                else:
-                                                                    current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no)
+                                                                if 'name' in elem.attrib:
+                                                                    fieldname = elem.attrib['name']
+                                                                    if 'bitfield' in elem.attrib :
+                                                                        bit_item = elem.attrib['bitfield'].split(',')  #bitfield="0,  5"
+                                                                    else:
+                                                                        bit_item = []
+                                                                    bit_value, bit_l, bit_h = self.findbitval(binv_list, bit_item, dw_no)
 
-                                                                #complement undefined dword length, for unmapped buffer stream
-                                                                if fieldname == "DwordLength":
-                                                                    dw_len = int(bit_value,16) 
-                                                                    structcmd_group.set('DW0_dwlen', str(dw_len))
-                                                                    # check dwsize
-                                                                    if not self.checkdwlen(dw_len, input_dwsize) and ringcmd not in self.specialcmd:
-                                                                        self.size_error.add(index)
+                                                                    #check bitfield---
+                                                                    if last_bit_h == int(bit_l):
+                                                                        self.bitfield_error_cmd.add(ringcmd)
+                                                                    last_bit_h = int(bit_h)
+                                                                    #check bitfield end---
 
-                                                        current_group = dword_group
-                                                if unionorcmd.tag == 'otherCMD' and 'otherCMD' in unionorcmd.attrib:
-                                                    if 'arraysize' in unionorcmd.attrib:
-                                                        structcmd_group, dw_no = self.findcmd(structcmd_group, unionorcmd.attrib['otherCMD'], value_list, dw_no, unionorcmd.attrib['arraysize'])
-                                                    else:
-                                                        structcmd_group, dw_no = self.findcmd(structcmd_group, unionorcmd.attrib['otherCMD'], value_list, dw_no)
+                                                                    if structcmd_group.attrib['name'] == 'MI_NOOP_CMD':
+                                                                        current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no, 'N')
+                                                                    else:
+                                                                        current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no)
 
-                                                if unionorcmd.tag != 'otherCMD' and 'arraysize' in unionorcmd.attrib:
-                                                    #filter the same layer containing 'arraysize' attrib with union or othercmd, not including those within union
-                                                    asize = unionorcmd.attrib['arraysize']
-                                                    if '_' in dw_no:
-                                                        pre_dw = int(dw_no.split('_')[1].strip())
-                                                    else:
-                                                        pre_dw = int(dw_no)
-                                                    #dtype: uint8_t, uint16_t, ...
-                                                    if re.search('uint\d+_t', unionorcmd.tag):
-                                                        uint = int(re.search('\d+', unionorcmd.tag)[0])
-                                                    dw_end = pre_dw + int(int(asize)*uint/32)
+                                                                    #complement undefined dword length, for unmapped buffer stream
+                                                                    if fieldname == "DwordLength":
+                                                                        dw_len = int(bit_value,16) 
+                                                                        structcmd_group.set('DW0_dwlen', str(dw_len))
+                                                                        # check dwsize
+                                                                        if not self.checkdwlen(dw_len, input_dwsize) and ringcmd not in self.specialcmd:
+                                                                            self.size_error.add(index)
 
-                                                    for i in range(pre_dw+1, dw_end+1):
-                                                        val_str = self.findval(value_list, str(i))['val_str']
-                                                        dword_group = SubElement(structcmd_group, 'dword', {'NO' : str(i),
-                                                                                                            'value' : val_str,
-                                                                                                            'arrayname': unionorcmd.attrib['name'],
-                                                                                                            'dtype': unionorcmd.tag})
-                                                    dw_no = str(dw_end)
+                                                            current_group = dword_group
+                                                    if unionorcmd.tag == 'otherCMD' and 'otherCMD' in unionorcmd.attrib:
+                                                        if 'arraysize' in unionorcmd.attrib:
+                                                            structcmd_group, dw_no = self.findcmd(structcmd_group, unionorcmd.attrib['otherCMD'], value_list, dw_no, unionorcmd.attrib['arraysize'])
+                                                        else:
+                                                            structcmd_group, dw_no = self.findcmd(structcmd_group, unionorcmd.attrib['otherCMD'], value_list, dw_no)
 
-                                                #read defined dwsize if existed
-                                                if 'name' in unionorcmd.attrib and unionorcmd.attrib['name'] == 'dwSize':
-                                                    defined_dwSize = unionorcmd.attrib['value']
-                                                    structcmd_group.set('def_dwSize', defined_dwSize)
-                                                    # check dwsize
-                                                    diff = int(defined_dwSize) - input_dwsize
+                                                    if unionorcmd.tag != 'otherCMD' and 'arraysize' in unionorcmd.attrib:
+                                                        #filter the same layer containing 'arraysize' attrib with union or othercmd, not including those within union
+                                                        asize = unionorcmd.attrib['arraysize']
+                                                        if '_' in dw_no:
+                                                            pre_dw = int(dw_no.split('_')[1].strip())
+                                                        else:
+                                                            pre_dw = int(dw_no)
+                                                        #dtype: uint8_t, uint16_t, ...
+                                                        if re.search('uint\d+_t', unionorcmd.tag):
+                                                            uint = int(re.search('\d+', unionorcmd.tag)[0])
+                                                        dw_end = pre_dw + int(int(asize)*uint/32)
 
-                                                    if not (ringcmd in self.specialcmd and (diff == 0 or diff == 1)):
-                                                        if diff > 0:
-                                                            self.size_error.add(index)
+                                                        for i in range(pre_dw+1, dw_end+1):
+                                                            val_str = self.findval(value_list, str(i))['val_str']
+                                                            dword_group = SubElement(structcmd_group, 'dword', {'NO' : str(i),
+                                                                                                                'value' : val_str,
+                                                                                                                'arrayname': unionorcmd.attrib['name'],
+                                                                                                                'dtype': unionorcmd.tag})
+                                                        dw_no = str(dw_end)
 
-                                            #print(prettify(Result))
-                                            #break
+                                                    #read defined dwsize if existed
+                                                    if 'name' in unionorcmd.attrib and unionorcmd.attrib['name'] == 'dwSize':
+                                                        defined_dwSize = unionorcmd.attrib['value']
+                                                        structcmd_group.set('def_dwSize', defined_dwSize)
+                                                        # check dwsize
+                                                        diff = int(defined_dwSize) - input_dwsize
+
+                                                        if not (ringcmd in self.specialcmd and (diff == 0 or diff == 1)):
+                                                            if diff > 0:
+                                                                self.size_error.add(index)
+
+                                                #print(prettify(Result))
+                                                #break
                                         
                                             
-                                            structcmd_group = self.unmapdw( structcmd_group, dw_no, value_list)
-                                                #compare defined dwSize with real dwSize
-                                                #sub1 = abs(int(defined_dwSize) - dw_len)
-                                                #if sub1 != 1 and sub1 != 2:
-                                                #    structcmd_group.set('dwSizeEqual', 'False')
+                                                structcmd_group = self.unmapdw( structcmd_group, dw_no, value_list)
+                                                    #compare defined dwSize with real dwSize
+                                                    #sub1 = abs(int(defined_dwSize) - dw_len)
+                                                    #if sub1 != 1 and sub1 != 2:
+                                                    #    structcmd_group.set('dwSizeEqual', 'False')
 
-                                            structcmd_group = self.checkdw(structcmd_group, value_list)
+                                                structcmd_group = self.checkdw(structcmd_group, value_list)
 
 
-                                            return node
+                                                return node
 
 
 
         #cmd not found in local file
         ringcmd_group = SubElement(node, 'ringcmd', {'name' : ringcmd, 
-                                                     'class' : 'not found',
-                                                     'index' : str(index)})
+                                                        'class' : 'not found',
+                                                        'index' : str(index)})
         print(ringcmd + ' not found')
         self.notfoundset.add(ringcmd)
         return node
@@ -457,67 +438,70 @@ class CmdFinder(object):
         #                        tree = ET.parse(thing)
         #                        root = tree.getroot()
         #                        for Class in root.findall('class'):
-        for pattern in self.searchpattern:
-            for Class in self.Buf.findall('./content/class'):
-                if 'name' in Class.attrib and re.search(pattern, Class.attrib['name'].lower()) and [i for i in self.filter if i not in cmd.lower() or i in cmd.lower() and i in Class.attrib['name'].lower()]:
-                                    for structcmd in Class.iter('struct'):
-                                        # search cmd in all the local files
-                                        if 'name' in structcmd.attrib and structcmd.attrib['name'] == cmd:
+        for source in self.source:
+            #xpath = './Elem[@index=%s]' % str(self.source_dic.get(source))
+            elem = self.Buf.find("./Elem[@index='%s']" % str(self.source_dic.get(source)))
+            for Class in elem.findall('./content/class'):
+                for pattern in self.searchpattern:
+                    if 'name' in Class.attrib and re.search(pattern, Class.attrib['name'].lower()) and [i for i in self.filter if i not in cmd.lower() or i in cmd.lower() and i in Class.attrib['name'].lower()]:
+                                        for structcmd in Class.iter('struct'):
+                                            # search cmd in all the local files
+                                            if 'name' in structcmd.attrib and structcmd.attrib['name'] == cmd:
                             
-                                            dw_len = 0
-                                            dw_no = base_dw_no
-                                            #define iteration times according to cmd arraysize
-                                            if not arraysize:
-                                                times = 1
-                                            else:
-                                                times = int(arraysize)
+                                                dw_len = 0
+                                                dw_no = base_dw_no
+                                                #define iteration times according to cmd arraysize
+                                                if not arraysize:
+                                                    times = 1
+                                                else:
+                                                    times = int(arraysize)
 
-                                            for i in range(times):
-                                                for unionorcmd in structcmd.findall("./"):  #select all the direct children
+                                                for i in range(times):
+                                                    for unionorcmd in structcmd.findall("./"):  #select all the direct children
                                         
-                                                    if unionorcmd.tag == 'union' and 'name' in unionorcmd.attrib and 'DW' in unionorcmd.attrib['name']:
-                                                        dword_group = SubElement(node, 'dword', {'otherCMD': cmd,
-                                                                                                 'class' : Class.attrib['name']})
-                                                        if arraysize:
-                                                            dword_group.set('cmdarraysize', arraysize)
-                                                            dword_group.set('arrayNO', str(i))
-                                                        dw_no = unionorcmd.attrib['name'].strip('DW')
-                                                        dic = self.findval(value_list, dw_no, base_dw_no)
-                                                        dw_no = dic['dw_no_new']
-                                                        dword_group.set('NO' , dw_no)
-                                                        dword_group.set('value', dic['val_str'])
-                                                        #dword_group = SubElement(structcmd_group, 'dword', {'NO' : dw_no,
-                                                        #                                                    'value': val_str})
-                                                        current_group = dword_group
-                                                        for s in unionorcmd.findall('struct'):
-                                                            # 1 dword has several objs
-                                                            if 'name' in s.attrib:
-                                                                obj_group = SubElement(current_group, s.attrib['name'], {'value': val_str})
-                                                                current_group = obj_group
-                                                            for elem in s.findall("./"):
-                                                                if 'name' in elem.attrib:
-                                                                    fieldname = elem.attrib['name']
-                                                                    if 'bitfield' in elem.attrib :
-                                                                        bit_item = elem.attrib['bitfield'].split(',')  #bitfield="0,  5"
-                                                                    else:
-                                                                        bit_item = []
-                                                                    bit_value, bit_l, bit_h = self.findbitval(binv_list, bit_item, dw_no)
-                                                                    if structcmd.attrib['name'] == 'MI_NOOP_CMD':
-                                                                        current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no, 'N')
-                                                                    else:
-                                                                        current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no)
-
-
-                                                                    #complement undefined dword length, for unmapped buffer stream
+                                                        if unionorcmd.tag == 'union' and 'name' in unionorcmd.attrib and 'DW' in unionorcmd.attrib['name']:
+                                                            dword_group = SubElement(node, 'dword', {'otherCMD': cmd,
+                                                                                                     'class' : Class.attrib['name']})
+                                                            if arraysize:
+                                                                dword_group.set('cmdarraysize', arraysize)
+                                                                dword_group.set('arrayNO', str(i))
+                                                            dw_no = unionorcmd.attrib['name'].strip('DW')
+                                                            dic = self.findval(value_list, dw_no, base_dw_no)
+                                                            dw_no = dic['dw_no_new']
+                                                            dword_group.set('NO' , dw_no)
+                                                            dword_group.set('value', dic['val_str'])
+                                                            #dword_group = SubElement(structcmd_group, 'dword', {'NO' : dw_no,
+                                                            #                                                    'value': val_str})
                                                             current_group = dword_group
-                                                    if unionorcmd.tag == 'otherCMD' and 'otherCMD' in unionorcmd.attrib:
-                                                        node, dw_no = self.findcmd(node, unionorcmd.attrib['otherCMD'], value_list, dw_no)
-                                                base_dw_no = dw_no
+                                                            for s in unionorcmd.findall('struct'):
+                                                                # 1 dword has several objs
+                                                                if 'name' in s.attrib:
+                                                                    obj_group = SubElement(current_group, s.attrib['name'], {'value': val_str})
+                                                                    current_group = obj_group
+                                                                for elem in s.findall("./"):
+                                                                    if 'name' in elem.attrib:
+                                                                        fieldname = elem.attrib['name']
+                                                                        if 'bitfield' in elem.attrib :
+                                                                            bit_item = elem.attrib['bitfield'].split(',')  #bitfield="0,  5"
+                                                                        else:
+                                                                            bit_item = []
+                                                                        bit_value, bit_l, bit_h = self.findbitval(binv_list, bit_item, dw_no)
+                                                                        if structcmd.attrib['name'] == 'MI_NOOP_CMD':
+                                                                            current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no, 'N')
+                                                                        else:
+                                                                            current_group = self.setbitfield(current_group, fieldname, bit_value, bit_l, bit_h, dw_no)
 
-                                            return node, dw_no
+
+                                                                        #complement undefined dword length, for unmapped buffer stream
+                                                                current_group = dword_group
+                                                        if unionorcmd.tag == 'otherCMD' and 'otherCMD' in unionorcmd.attrib:
+                                                            node, dw_no = self.findcmd(node, unionorcmd.attrib['otherCMD'], value_list, dw_no)
+                                                    base_dw_no = dw_no
+
+                                                return node, dw_no
         #cmd not found in local file
         dword_group = SubElement(node, 'dword', {'otherCMD': cmd,
-                                                 'class' : 'not found'})
+                                                    'class' : 'not found'})
         return node, base_dw_no
 
     def extractfull(self):
@@ -635,31 +619,42 @@ class CmdFinder(object):
     def h2xml(self):
         #convert header to xml
         #use header_parser tool
-        
-        
-        for source in self.source:
-            parser_list = []
-            for r,d,f in os.walk(source):
-                #modify target file
-                #if r'\ult\agnostic\test' not in r:
-                if r'\ult\agnostic\test' in r:
-                    continue
-                for thing in f:
-                    # filter all mhw cmd header file
-                    #if thing.startswith('mhw_') and re.search('g\d', thing) and thing.endswith('.h'):
-                    if self.gen != 'all':
-                        if thing.startswith('mhw_') and re.search(f'g{self.gen}', thing) and thing.endswith('.h'):
-                            parser_list.append(HeaderParser(thing, r))
-                    else:
-                        if thing.startswith('mhw_') and thing.endswith('.h'):
-                            parser_list.append(HeaderParser(thing, r))
 
-            for item in parser_list:
-                item.read_file()
-                #Do not create xml file for each h file, instead save in buf str
-                #item.write_xml()
-                root = ET.fromstring(item.parse_file_info())
-                self.Buf.append(copy.deepcopy(root))
+        for source in self.source:
+            index = self.source_dic.get(source)
+            ##No need to reparse if this source converted before
+            if index:
+                continue
+            else:
+                # new source
+                parser_list = []
+                elem = Element('Elem')
+                index = len(self.source_dic)+1
+                self.source_dic[source] = index
+                elem.set('index', str(index))
+
+                for r,d,f in os.walk(source):
+                    #modify target file
+                    #if r'\ult\agnostic\test' not in r:
+                    if r'\ult\agnostic\test' in r:
+                        continue
+                    for thing in f:
+                        # filter all mhw cmd header file
+                        #if thing.startswith('mhw_') and re.search('g\d', thing) and thing.endswith('.h'):
+                        if self.gen != 'all':
+                            if thing.startswith('mhw_') and re.search(f'g{self.gen}', thing) and thing.endswith('.h'):
+                                parser_list.append(HeaderParser(thing, r))
+                        else:
+                            if thing.startswith('mhw_') and thing.endswith('.h'):
+                                parser_list.append(HeaderParser(thing, r))
+
+                for item in parser_list:
+                    item.read_file()
+                    #Do not create xml file for each h file, instead save in buf str
+                    #item.write_xml()
+                    root = ET.fromstring(item.parse_file_info())
+                    elem.append(copy.deepcopy(root))
+                self.Buf.append(elem)
         return self.Buf
 
     def findbitval(self, binv_list, bit_item, dw_no, base_dw_no = ''):
@@ -758,13 +753,13 @@ class CmdFinder(object):
 
 
 #----------------------------------------------------------------
-#ringpath = r'C:\projects\github\AutoULTGen\Client\command_validator_app\vcstringinfo\HEVC-VDENC-Grits001 - 1947\VcsRingInfo'
+#ringpath = r'C:\projects\github\AutoULTGen\Client\command_validator_app\vcstringinfo\HEVC-VDENC-Grits001-2125\VcsRingInfo'
 #gen = 12
-#source = [r'C:\Users\jiny\gfx\gfx-driver\Source\media']
-##----------------------------------------------------------------
+#source = [r'C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\agnostic\gen12\hw', r'C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\ult\agnostic\test\gen12_tglhp\hw']
+#----------------------------------------------------------------
 
-##----------------------------------------------------------------
-##init
+#----------------------------------------------------------------
+## init
 #start = time.clock()
 #obj = CmdFinder(source, gen, ringpath)
 #Buf = obj.h2xml()
@@ -773,7 +768,21 @@ class CmdFinder(object):
 #obj.writexml() #write to files
 #elapsed = (time.clock() - start)
 #print("Total Time used:",elapsed)   #25s 
+###----------------------------------------------------------------
+
+
+###----------------------------------------------------------------
+## Update media path
+#start = time.clock()
+## manage source priority by list
+#obj.source = [ r'C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\ult\agnostic\test\gen12_tglhp\hw', r'C:\Users\jiny\gfx\gfx-driver\Source\media']
+#Buf = obj.h2xml()
+#obj.updatexml()
+#obj.writexml() #write to files
+#elapsed = (time.clock() - start)
+#print("Total Time used:",elapsed)   #25s 
 ##----------------------------------------------------------------
+
 
 ##----------------------------------------------------------------
 ## show ringcmd if user want to update cmd
@@ -791,7 +800,7 @@ class CmdFinder(object):
 ##----------------------------------------------------------------
 ##after running once
 #start = time.clock()
-#obj = CmdFinder(source, gen, ringpath, Buf)
+#obj.ringpath = ...
 #obj.extractfull()
 #obj.updatexml()
 #obj.writexml()

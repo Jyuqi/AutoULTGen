@@ -28,10 +28,12 @@ class MainWindow(QMainWindow):
         #self.ui.pushButtonGAll.clicked.connect(lambda : self.ui.tabWidget.setCurrentIndex(1))
         self.ui.pushButtonUpdate.clicked.connect(self.input_goru)
 
-        self.media_path = '' # split by ';'
+        self.media_path = [] # text split by ';'
+        self.pre_media_path = [] # text split by ';', used to save last media_path. Judge if updated. 
         self.base_media = '' # end in file /source
         self.media_path2 = '' # end in Source/media
         self.Buf = None 
+        self.obj = None     #save cmd obj
         self.command_info = []
         self.command_tags = ('DW0_dwlen', 'class', 'def_dwSize', 'index', 'input_dwsize', 'name')
         self.dword_tags = ('NO', 'value', 'class', 'cmdarraysize', 'otherCMD', 'arrayname', 'unmappedstr')
@@ -254,16 +256,50 @@ class MainWindow(QMainWindow):
                     platform_name = line[:line.find(',')].strip()
                     if platform_name.startswith('IGFX'):
                         self.platform_list.append(platform_name)
-
+            prePlatformName = self.ui.comboBoxPlatform.currentText()
             self.ui.comboBoxPlatform.clear()
             self.ui.comboBoxPlatform.addItems(self.platform_list)
+            if prePlatformName in self.platform_list :
+                self.ui.comboBoxPlatform.setCurrentText(prePlatformName)
+
             print('update platform list according to igfxfmid.h\n')
         except:
             pass
 
+    def checkMainPageInput(self):
+        msgBox = QMessageBox()
+        if not self.ui.lineEditTestName.text() :
+            msgBox.setText("Please input a valid Test Name!")
+            msgBox.exec_()
+            return False
+        if not self.ui.lineEditMediaPath.text():
+            msgBox.setText("Please input a valid Command Path!")
+            msgBox.exec_()
+            return False
+        if not self.ui.lineEditRinginfoPath.text():
+            msgBox.setText("Please input a valid Ringinfo Path!")
+            msgBox.exec_()
+            return False
+        if not self.ui.lineEditDDIInputPath.text():
+            msgBox.setText("Please input a valid DDI Input Path!")
+            msgBox.exec_()
+            return False
+        if self.ui.lineEditPlatform.text() == "IGFX_UNKNOWN":
+            msgBox.setText("Please input a valid Platform!")
+            msgBox.exec_()
+            return False
+        if not self.ui.lineEditComponent.text():
+            msgBox.setText("Please input a valid Component!")
+            msgBox.exec_()
+            return False
+
+        return True
+
     @Slot()
     def fillinput(self):
         blank = []
+        if False == self.checkMainPageInput():
+            return
         if not self.ui.lineEditRinginfoPath.text():
             self.ui.lineEditRinginfoPath.setStyleSheet('QLineEdit {background-color: rgb(255, 242, 0);}')
             blank.append('Ringinfo')
@@ -562,34 +598,23 @@ FrameNum = ([a-zA-Z0-9_\-]*)
         self.ui.logBrowser.append('Begin parse vcs ring info\n')
         self.ui.logBrowser.append('It may take about 30 seconds to finish parsing.\n')
         QCoreApplication.processEvents()
-        #self.ringinfo_path = self.ringinfo_path.strip()
-        #if self.ringinfo_path[-1] != '\\':
-        #    self.ringinfo_path = self.ringinfo_path + '\\'
 
-        ## read xml from file: uncomment this to see the original output
-        #self.command_xml = os.path.join(self.ringinfo_path, 'mapringinfo.xml')
-
-
-        #init
+        # build CMDFinder obj
+        if not self.obj:
+            self.obj = CmdFinder(self.media_path, 12, self.ringinfo_path)
         start = time.clock()
-        #self.obj = CmdFinder(self.media_path, 12, self.ringinfo_path)
-        if not self.Buf:
-            self.Buf = self.obj.h2xml()
+        #Judge if it is update media path case
+        if self.pre_media_path and self.pre_media_path != self.media_path: #sequence matters!
+            self.obj.source = self.media_path 
+        self.pre_media_path = self.media_path ##save current media path to history
+
+        self.Buf = self.obj.h2xml()
         self.obj.extractfull()
-        if not self.obj.Frame_Num:
-            msgBox = QMessageBox()
-            msgBox.setText("Ringinfo path doesn't contain target files!(e.g. 1-VcsRingInfo_0_0.txt)")
-            msgBox.exec_()
         self.obj.updatexml()
         #self.obj.writexml(self.output_path)
         elapsed = (time.clock() - start)
         print("Total Time used:",elapsed)
-        #
-        #print('end parse command file')
-        #self.ui.logBrowser.append("Total Time used:"+ str(elapsed) +'\n')
-        #self.ui.logBrowser.append('End parse vcs ring info\n')
-        #self.ui.logBrowser.append('Save xml in '+ self.ringinfo_path + '\n')
-        #self.ui.logBrowser.append('Save original mapringinfo.xml\n')
+
 
     def read_info_from_ui(self):
         if self.ui.lineEditComponent.text():
@@ -808,6 +833,9 @@ FrameNum = ([a-zA-Z0-9_\-]*)
     def generate_xml(self):
         if not self.command_info:
             pass
+        if self.platform == "IGFX_UNKNOWN":
+            self.show_message('Fail to generate the reference. \nPlease check the Platform setting in the main page.', '')
+            return
         self.split_dword()
         lines = ['<?xml version="1.0"?>\n']
         lines.append('<' + self.test_name + '>\n')
@@ -914,17 +942,8 @@ FrameNum = ([a-zA-Z0-9_\-]*)
             # combine input files and parameters
             self.combine()
             self.ui.logBrowser.append("Generate input file: %s\n" %self.inputfilename)
-            #pop out message box
-            #msgBox = QMessageBox()
-            #msgBox.setText("The input file has been generated.")
-            #msgBox.exec_()
 
 
-            # build CMDFinder obj
-            if self.Buf:
-                self.obj = CmdFinder(self.media_path, 12, self.ringinfo_path, self.Buf, self.output_path)
-            else:
-                self.obj = CmdFinder(self.media_path, 12, self.ringinfo_path, self.Buf, self.output_path)
 
             self.parse_command_file()
             self.read_command_info_from_xml()
@@ -937,9 +956,9 @@ FrameNum = ([a-zA-Z0-9_\-]*)
         l = [self.inputpath, self.ringinfo_path]
         for i in l:
             dstdir = os.path.join(self.output_path, os.path.basename(i))
+            #delete former folder first
             shutil.rmtree(dstdir, ignore_errors=True)
-            if not os.path.exists(dstdir):
-                os.makedirs(dstdir) # create directories, raise an error if it already exists
+            os.makedirs(dstdir) # create directories, raise an error if it already exists
             for f in os.listdir(i):
                 full_f = os.path.join(i, f)
                 shutil.copy(full_f, dstdir)
