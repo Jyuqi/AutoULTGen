@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
 
         self.media_path = [] # text split by ';'
         self.pre_media_path = [] # text split by ';', used to save last media_path. Judge if updated. 
+        self.pre_ringinfo_path = ''
         self.base_media = '' # end in file /source
         self.media_path2 = '' # end in Source/media
         self.Buf = None 
@@ -76,7 +77,7 @@ class MainWindow(QMainWindow):
         self.ui.Width_input.editingFinished.connect(partial(self.checkhw, 'Width'))
 
         #self.ui.lineEditTestName.setText('encodeHevcCQP')
-        self.ui.lineEditMediaPath.setText(r'C:\Users\jiny\gfx\gfx-driver\Source\media;C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\agnostic\gen12\hw')
+        self.ui.lineEditMediaPath.setText(r'C:\Users\jiny\gfx\gfx-driver\Source\media;C:\Users\jiny\gfx\gfx-driver\Source\media\media_embargo\ult\agnostic\test\gen12_tglhp\hw;C:\projects\hevctest\Source\media\media_embargo\agnostic\gen12_tglhp\hw')
         self.ui.lineEditDDIInputPath.setText(r'C:\projects\github\AutoULTGen\Client\command_validator_app\vcstringinfo\HEVC-VDENC-grits-WP-2125\DDI_Input')
         self.ui.lineEditRinginfoPath.setText(r'C:\projects\github\AutoULTGen\Client\command_validator_app\vcstringinfo\HEVC-VDENC-grits-WP-2125\VcsRingInfo')
         self.ui.lineEditComponent.setText(self.ui.comboBoxComponent.currentText())
@@ -546,20 +547,14 @@ FrameNum = ([a-zA-Z0-9_\-]*)
 
     @Slot()
     def show_command_info(self):
-        # self.form.ui = Form()
-        # self.form.ui.setupUi(self.form)
+        self.form.ui.tableWidgetCmd.clearContents()
         self.form.setWindowTitle(self.test_name)
         tree = self.form.ui.treeWidgetCmd
+        tree.clear()
         header = self.form.ui.treeWidgetCmd.header()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         header.setStretchLastSection(False)
-        
-        tree.itemDoubleClicked.connect(self.form.save)
-        tree.itemDoubleClicked.connect(self.show_command_table)
-        tree.itemClicked.connect(self.form.save)
-        tree.itemClicked.connect(self.show_command_table)
-        tree.itemChanged.connect(self.form.update_tree_checkstate)
-        # tree.itemChanged.connect(self.show_command_table)
+
         test = QTreeWidgetItem(tree)
         test.setText(0, self.test_name)
         for frame_idx in range(len(self.command_info)):
@@ -606,10 +601,14 @@ FrameNum = ([a-zA-Z0-9_\-]*)
         #Judge if it is update media path case
         if self.pre_media_path and self.pre_media_path != self.media_path: #sequence matters!
             self.obj.source = self.media_path 
+        if not self.pre_ringinfo_path or self.pre_ringinfo_path != self.ringinfo_path: #extract vcsringinfo at the first time or redo this step if path changes
+            self.obj.extractfull()
+
         self.pre_media_path = self.media_path ##save current media path to history
+        self.pre_ringinfo_path = self.ringinfo_path ##save current ringinfo path to history
 
         self.Buf = self.obj.h2xml()
-        self.obj.extractfull()
+        
         self.obj.updatexml()
         #self.obj.writexml(self.output_path)
         elapsed = (time.clock() - start)
@@ -651,6 +650,7 @@ FrameNum = ([a-zA-Z0-9_\-]*)
         if not self.pathlist.findItems(base_folder, Qt.MatchExactly):
             self.pathlist.addItem(base_folder)
             self.ui.lineEditMediaPath.setText(self.ui.lineEditMediaPath.text() + ';' + base_folder)
+            self.media_path = self.ui.lineEditMediaPath.text().split(';')
 
         # create single folder for each testname
         if not os.path.exists(self.output_path):
@@ -942,9 +942,6 @@ FrameNum = ([a-zA-Z0-9_\-]*)
             # combine input files and parameters
             self.combine()
             self.ui.logBrowser.append("Generate input file: %s\n" %self.inputfilename)
-
-
-
             self.parse_command_file()
             self.read_command_info_from_xml()
             self.ui.tabWidget.setCurrentIndex(0)
@@ -1158,6 +1155,12 @@ class FormCommandInfo(QWidget):
         self.ui.pushButtonSA.clicked.connect(lambda : self.ui.stackedWidget.setCurrentIndex(0))  #show cmd name list
         self.ui.pushButtonSU.clicked.connect(self.updateinfo)
         self.ui.tableWidgetCmdlist.cellDoubleClicked.connect(self.modifycmd)
+
+        self.ui.treeWidgetCmd.itemDoubleClicked.connect(self.save)
+        self.ui.treeWidgetCmd.itemDoubleClicked.connect(self.main_window.show_command_table)
+        self.ui.treeWidgetCmd.itemClicked.connect(self.save)
+        self.ui.treeWidgetCmd.itemClicked.connect(self.main_window.show_command_table)
+        self.ui.treeWidgetCmd.itemChanged.connect(self.update_tree_checkstate)
         
 
     def show_message(self, inf, title):
@@ -1304,7 +1307,7 @@ class FormCommandInfo(QWidget):
             if cmd in self.main_window.obj.bitfield_error_cmd:
                 self.table.setItem(row, 3, QTableWidgetItem('Bitfield Error'))
             elif self.main_window.obj.size_error_cmd[cmd]:
-                print(self.main_window.obj.size_error)
+                #print(self.main_window.obj.size_error)
                 warning = 'Size Error in position: '
                 for i in self.main_window.obj.size_error_cmd[cmd]:
                     warning += str(i) + ','
@@ -1340,7 +1343,7 @@ class FormCommandInfo(QWidget):
             #            index = 'all'
             #if column == 1:
             new, ok = QInputDialog.getText(self.table,  "Modify", "CMD Name", QLineEdit.Normal, self.table.item(row, 0).text())
-            if ok:
+            if new != cmdname and ok:
                 input_index, ok = QInputDialog.getText(self.table,  "Modify", "\tScope(1-%s)\n(e.g. 1-4,6)" %maximum_value, QLineEdit.Normal, 'Apply to All')
                 if input_index != 'Apply to All':
                     index = []
@@ -1383,8 +1386,7 @@ class FormCommandInfo(QWidget):
         self.main_window.obj.undate_full_ringinfo()
         self.main_window.obj.updatexml()
         self.main_window.ui.logBrowser.append('Update xml\n')
-        self.ui.tableWidgetCmd.clearContents()
-        self.ui.treeWidgetCmd.clear()
+
         self.main_window.ui.logBrowser.append('Reload...\n')
         #pop out message box
         msgBox = QMessageBox()
@@ -1441,13 +1443,15 @@ class Addpath(QWidget):
         else:
             dir = dialog.getExistingDirectory(self, "Add Search Folder",
                                            "/home")
-        self.last_dir = dir
-        if self.list.count() > 1 and os.path.basename(dir) != 'hw':
-            msgBox = QMessageBox()
-            msgBox.setText("Path should End in hw!")
-            msgBox.exec_()
-        else:
-            self.list.insertItem(0, dir)
+        
+        if dir:
+            self.last_dir = dir
+            if self.list.count() > 1 and os.path.basename(dir) != 'hw':
+                msgBox = QMessageBox()
+                msgBox.setText("Path should End in hw!")
+                msgBox.exec_()
+            else:
+                self.list.insertItem(0, dir)
 
     @Slot()
     def RemoveFolder(self):

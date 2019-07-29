@@ -94,17 +94,21 @@ class CmdFinder(object):
                         new_ringinfo.append(pair)
             new_full_ringinfo[frame_no] = new_ringinfo
 
+        self.ringcmdmodify = {} # clear 
         self.full_ringinfo = new_full_ringinfo
         return new_full_ringinfo
 
     def updatexml(self, index = 0):
         # after modify cmd in UI, update xml according to the new full_ringinfo
         TestName = self.TestName
+        
         # clear
         self.TestName = Element('TestName') 
         self.size_error = set()
         self.size_error_cmd = {}
         self.size_right_cmd = {}
+        self.notfoundset = set()
+        self.bitfield_error_cmd = set()
 
         platform_group = SubElement(self.TestName, 'Platform', {'name': ''})
         # full_ringinfo: {'0':[{'MI_LOAD_REGISTER_IMM': ['1108101d', '00000244']},...]} , '0' is frame_no
@@ -167,47 +171,50 @@ class CmdFinder(object):
         #cmd = self.TestName.find(xpath)
         #cmd = self.TestName.find(".//CMD[@name='MI_FORCE_WAKEUP']")
         start2 = time.clock()
-        for cmd in Element.findall(".//CMD"):
-            if self.searchkword(ringcmd, cmd.attrib['name']):
-                dupe = copy.deepcopy(cmd)
+        for source in self.source:
+            media_source_idx = self.source_dic.get(source)
+            cmd = Element.find(".//CMD[@media_source_idx='%s']" % str(media_source_idx))  #search by media source priority
+            if cmd:
+                if self.searchkword(ringcmd, cmd.attrib['name']):
+                    dupe = copy.deepcopy(cmd)
                 
-                #check dwsize
-                if 'def_dwSize' in dupe.attrib:
-                    diff = int(dupe.attrib['def_dwSize']) - input_dwsize
-                    if not (ringcmd in self.specialcmd and (diff == 0 or diff == 1)):
-                        if diff > 0:
-                            self.size_error.add(index)
-
-                dupe.attrib['input_dwsize'] = str(input_dwsize)
-                dupe.attrib['index'] = str(index)
-
-                for dword_group in dupe.findall("dword"):
-                    if 'unmappedstr' not in dword_group.attrib:
-                        dw_no = dword_group.attrib['NO']
-                        val_str = self.findval(value_list, dw_no)['val_str']
-                        dword_group.attrib['value'] = val_str
-                    else:
-                        #delete previous unmapped str
-                        dupe.remove(dword_group)
-
-                    for field in dword_group.findall(".//*[@bitfield_h]"):
-                        fieldname, bit_l, bit_h = field.tag, field.attrib['bitfield_l'], field.attrib['bitfield_h']
-                        bit_value = self.findbitval(binv_list, list((bit_l, bit_h)), dw_no)[0]
-                        field.attrib['default_value'] = bit_value
-                        field.attrib['max_value'] = bit_value
-                        field.attrib['min_value'] = bit_value
-                        if fieldname == "DwordLength":
-                            dw_len = int(bit_value,16) 
-                            dupe.attrib['DW0_dwlen'] = str(dw_len)
-                            if not self.checkdwlen(dw_len, input_dwsize) and ringcmd not in self.specialcmd:
+                    #check dwsize
+                    if 'def_dwSize' in dupe.attrib:
+                        diff = int(dupe.attrib['def_dwSize']) - input_dwsize
+                        if not (ringcmd in self.specialcmd and (diff == 0 or diff == 1)):
+                            if diff > 0:
                                 self.size_error.add(index)
+
+                    dupe.attrib['input_dwsize'] = str(input_dwsize)
+                    dupe.attrib['index'] = str(index)
+
+                    for dword_group in dupe.findall("dword"):
+                        if 'unmappedstr' not in dword_group.attrib:
+                            dw_no = dword_group.attrib['NO']
+                            val_str = self.findval(value_list, dw_no)['val_str']
+                            dword_group.attrib['value'] = val_str
+                        else:
+                            #delete previous unmapped str
+                            dupe.remove(dword_group)
+
+                        for field in dword_group.findall(".//*[@bitfield_h]"):
+                            fieldname, bit_l, bit_h = field.tag, field.attrib['bitfield_l'], field.attrib['bitfield_h']
+                            bit_value = self.findbitval(binv_list, list((bit_l, bit_h)), dw_no)[0]
+                            field.attrib['default_value'] = bit_value
+                            field.attrib['max_value'] = bit_value
+                            field.attrib['min_value'] = bit_value
+                            if fieldname == "DwordLength":
+                                dw_len = int(bit_value,16) 
+                                dupe.attrib['DW0_dwlen'] = str(dw_len)
+                                if not self.checkdwlen(dw_len, input_dwsize) and ringcmd not in self.specialcmd:
+                                    self.size_error.add(index)
                             
-                dupe= self.unmapdw( dupe, dw_no, value_list)
-                node.append(dupe) #insert the new node
-                #print("Search saved xml Time used:", time.clock() - start2)
-                return True
-        else:
-            return False
+                    dupe= self.unmapdw( dupe, dw_no, value_list)
+                    node.append(dupe) #insert the new node
+                    #print("Search saved xml Time used:", time.clock() - start2)
+                    return True
+
+        return False
 
     def checkdwlen(self, dw_len, input_dwsize):
         if input_dwsize < 2 and dw_len ==0:
@@ -241,7 +248,8 @@ class CmdFinder(object):
                                 #root = tree.getroot()
         
         for source in self.source:
-            elem = self.Buf.find("./Elem[@index='%s']" % str(self.source_dic.get(source)))
+            media_source_idx = self.source_dic.get(source)
+            elem = self.Buf.find("./Elem[@index='%s']" % str(media_source_idx))
             for Class in elem.findall('./content/class'):
                 for pattern in self.searchpattern:
                     if 'name' in Class.attrib and re.search(pattern, Class.attrib['name'].lower()) and [i for i in self.filter if i not in ringcmd.lower() or i in ringcmd.lower() and i in Class.attrib['name'].lower()]:
@@ -254,7 +262,8 @@ class CmdFinder(object):
                                                 structcmd_group = SubElement(node, 'CMD',  {'name' : structcmd.attrib['name'],
                                                                                             'class' : Class.attrib['name'],
                                                                                             'index' : str(index),
-                                                                                            'input_dwsize' : str(input_dwsize)})
+                                                                                            'input_dwsize' : str(input_dwsize),
+                                                                                            'media_source_idx' : str(media_source_idx)})
                                                 dw_len = 0
                                                 dw_no = ''
                                                 if not self.ringcmdclass[ringcmd]:
@@ -368,8 +377,8 @@ class CmdFinder(object):
 
         #cmd not found in local file
         ringcmd_group = SubElement(node, 'ringcmd', {'name' : ringcmd, 
-                                                        'class' : 'not found',
-                                                        'index' : str(index)})
+                                                    'class' : 'not found',
+                                                    'index' : str(index)})
         print(ringcmd + ' not found')
         self.notfoundset.add(ringcmd)
         return node
@@ -501,7 +510,7 @@ class CmdFinder(object):
                                                 return node, dw_no
         #cmd not found in local file
         dword_group = SubElement(node, 'dword', {'otherCMD': cmd,
-                                                    'class' : 'not found'})
+                                                'class' : 'not found'})
         return node, base_dw_no
 
     def extractfull(self):
@@ -541,7 +550,7 @@ class CmdFinder(object):
         #           'Workload': search in Workload portion
     
         #full_ringinfo : {'0':[{'MI_LOAD_REGISTER_IMM': ['1108101d', '00000244']},...]} , '0' is frame_no
-    
+        self.ringcmddic = {} #clear ringcmd count in dic
         df = self.df_dic[dfname]
         ringinfo = [] #stores single file ringinfo
         skip_next = False
