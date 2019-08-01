@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         self.platform = ''
         self.frame_num = 0
         self.row_num = 0
-        self.workspace = ''
+        self.GUID = ''
         self.form = FormCommandInfo(self)
         self.Addpath = Addpath(self)
         self.pathlist = self.Addpath.ui.listWidget
@@ -71,6 +71,7 @@ class MainWindow(QMainWindow):
         self.ui.comboBoxPlatform.currentIndexChanged.connect(self.fillinput_platform)
         self.ui.comboBoxComponent.currentIndexChanged.connect(self.fillinput_component)
 
+        self.ui.GUID_input.editingFinished.connect(self.checkGUID)
         self.ui.lineEditRinginfoPath.editingFinished.connect(partial(self.fillframenum,'Main'))
         self.ui.lineEditDDIInputPath.editingFinished.connect(partial(self.fillframenum,'Input'))
         self.ui.Height_input.editingFinished.connect(partial(self.checkhw, 'Height'))
@@ -91,7 +92,6 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def checkhw(self, name):
-        
         if name == 'Height':
             try:
                 text = self.ui.Height_input.text()
@@ -116,7 +116,10 @@ class MainWindow(QMainWindow):
                 msgBox.setText("%s should be int!" %name)
                 msgBox.exec_()
 
-
+    @Slot()
+    def checkGUID(self):
+        if not self.read_test_cfg_cpp():
+            self.ui.GUID_input.setText('')
 
     @Slot()
     def read_test_name(self):
@@ -319,8 +322,8 @@ class MainWindow(QMainWindow):
             str = ', '.join(blank)
             msgBox.setText("Please fill %s Path!"% str)
             msgBox.exec_()
-        else:
-            self.read_info_from_ui()
+        elif self.read_info_from_ui():
+
             self.fillcombobox()
             self.checkinputexist()
 
@@ -654,8 +657,14 @@ FrameNum = ([a-zA-Z0-9_\-]*)
         # create single folder for each testname
         if not os.path.exists(self.output_path):
             os.makedirs(self.output_path)
+        else:
+            ## check if platform is same with one testname
+            # load previous info first
+            if not self.read_test_cfg_cpp():
+                return False
         self.ui.logBrowser.append('All the following output will be saved in workspace:\n%s\n'  %self.output_path)
         self.ringinfo_path = self.ui.lineEditRinginfoPath.text()
+        return True
 
         
 
@@ -1046,31 +1055,37 @@ FrameNum = {self.FrameNum}
     def update_integrated_test_cfg_cpp(self, component='encode'):
         try:
             if component == 'encode':
-                f_integrated_cfg_cpp = self.workspace[:-9] + 'encode_integrated_test_cfg.cpp'
+                f_integrated_cfg_cpp = os.path.join(os.path.dirname(self.workspace), 'encode_integrated_test_cfg.cpp')
                 with open(f_integrated_cfg_cpp, 'r') as fin:
                     lines = fin.readlines()
                 s0 = '    {"' + self.capitalize_word(self.test_name) + '",' + ' ' * (20 - len(self.test_name)) + '{   IDR_' + self.test_name.upper() + '_REFERENCE,\n'
-                for line in lines:
-                    if line.find(s0) != -1:
-                        return
+                
                 newlines = []
                 newlines.append('    {"' + self.capitalize_word(self.test_name) + '",' + ' ' * (20 - len(self.test_name)) + '{   IDR_' + self.test_name.upper() + '_REFERENCE,\n')
                 newlines.append('                                IDR_' + self.test_name.upper() + '_INPUT,\n')
                 newlines.append('                                {"' + self.platform + '"},\n')
                 newlines.append('                                ' + self.GUID + '\n')
                 newlines.append('                            }\n')
-                newlines.append('    }\n')
-                newlines.append('};\n')
-                f_find = False
+                newlines.append('    },\n')
+                
+
                 for idx, line in enumerate(lines):
+                    if line.find(s0) != -1:
+                    ###update existed testname
+                        newlines = lines[:idx] + newlines + lines[idx+6:]
+                        break
+
                     if line.strip() == '};':
-                        f_find = True
-                        newlines = lines[:idx] + newlines
-                        if newlines[idx-1].strip() == '}':
-                            newlines[idx-1] = '    },\n'
-                if f_find:
-                    with open(f_integrated_cfg_cpp, 'w') as fout:
-                        fout.writelines(newlines)
+                        if line[idx-1].strip() == '}':
+                            line[idx-1] = '    },\n'
+                        newlines = lines[:idx] + newlines + [line]
+                        break
+
+                if newlines[-2].strip() == '},':
+                    newlines[-2] = '    }\n'
+
+                with open(f_integrated_cfg_cpp, 'w') as fout:
+                    fout.writelines(newlines)
         except:
             self.show_message('update encode_integrated_test_cfg.cpp error', 'error')
 
@@ -1127,6 +1142,45 @@ FrameNum = {self.FrameNum}
             return s[0].upper() + s[1:]
         else:
             return s
+
+    def read_test_cfg_cpp(self,  component='encode'):
+        if component == 'encode':
+            f_integrated_cfg_cpp = os.path.join(os.path.dirname(self.workspace), 'encode_integrated_test_cfg.cpp')
+            with open(f_integrated_cfg_cpp, 'r') as fin:
+                lines = fin.readlines()
+            s0 = '    {"' + self.capitalize_word(self.test_name) + '",' + ' ' * (20 - len(self.test_name)) + '{   IDR_' + self.test_name.upper() + '_REFERENCE,\n'
+                
+            idx = [idx for idx, line in enumerate(lines) if line.find(s0) != -1]
+            if idx:
+                self.pre_platform = re.match('{"(.*)"}', lines[idx[0]+2]).group(1)
+                self.pre_GUID = lines[idx[0]+3].strip()
+                fg = []
+                if self.pre_platform != self.platform:
+                    fg.append(0)
+                if self.GUID and self.GUID != self.GUID:
+                    fg.append(1)
+                if fg:
+                    msgBox = QMessageBox()
+                    msgBox.setWindowTitle('Testname Error')
+                    text = ''
+                    if 0 in fg:
+                        text += 'Current platform %s is different from previous configuration: %s\n' %(self.platform, self.pre_platform)
+                    if 1 in fg:
+                        text += 'Current GUID %s is different from previous configuration: %s\n' %(self.GUID, self.GUID)
+                    msgBox.setInformativeText(text)
+                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                    msgBox.setDefaultButton(QMessageBox.Cancel)
+                    buttonY = msgBox.button(QMessageBox.Ok)
+                    buttonY.setText('Rewrite')
+                    buttonN = msgBox.button(QMessageBox.Cancel)
+                    msgBox.exec_()
+
+                    if msgBox.clickedButton() == buttonY:
+                        return True
+                    elif msgBox.clickedButton() == buttonN:
+                        return False
+     
+        return True
 
 class FormCommandInfo(QWidget):
     def __init__(self, main_window):
@@ -1298,8 +1352,9 @@ class FormCommandInfo(QWidget):
         #print(self.main_window.obj.size_error_cmd)
         #print(self.main_window.obj.size_error)
 
+        #not update case or modifycmd case
         if self.main_window.ui.lineEditTestName == self.pre_testname and self.main_window.ui.lineEditPlatform == self.pre_platform and \
-           self.main_window.ui.lineEditRinginfoPath == self.pre_ringinfopath:
+           self.main_window.ui.lineEditRinginfoPath == self.pre_ringinfopath and not self.modifylist:
             return
 
 
