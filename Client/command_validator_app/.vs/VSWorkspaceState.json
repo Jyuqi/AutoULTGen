@@ -9,8 +9,9 @@
     "\\vcstringinfo\\HEVC-VDENC-grits-WP-2125\\VcsRingInfo",
     "\\vcstringinfo\\HEVC-VDENC-Grits001 - 1947",
     "\\vcstringinfo\\HEVC-VDENC-Grits001 - 1947\\DDI_Input",
-    "\\vcstringinfo\\HEVC-VDENC-Grits001 - 1947\\VcsRingInfo"
+    "\\vcstringinfo\\HEVC-VDENC-Grits001-2125",
+    "\\vcstringinfo\\HEVC-VDENC-Grits001-2125\\DDI_Input"
   ],
-  "SelectedNode": "\\extended_combobox.py",
+  "SelectedNode": "\\command_validator.py",
   "PreviewInSolutionExplorer": false
 }

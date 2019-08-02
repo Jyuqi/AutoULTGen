@@ -48,6 +48,7 @@ class MainWindow(QMainWindow):
         self.frame_num = 0
         self.row_num = 0
         self.GUID = ''
+        self.pre_component1 = ''
         self.form = FormCommandInfo(self)
         self.Addpath = Addpath(self)
         self.pathlist = self.Addpath.ui.listWidget
@@ -66,6 +67,8 @@ class MainWindow(QMainWindow):
         self.ui.tabWidget.setCurrentIndex(0)
         self.ui.FrameNum_input.setReadOnly(True)
         self.ui.lineEditFrame.setReadOnly(True)
+        self.ui.InputPathText.setReadOnly(True)
+        self.ui.Component_input.setReadOnly(True)
         self.ui.lineEditMediaPath.textChanged.connect(self.update_platform_list)
         #self.ui.lineEditRinginfoPath.textChanged.connect(self.read_test_name)
         self.ui.comboBoxPlatform.currentIndexChanged.connect(self.fillinput_platform)
@@ -118,8 +121,10 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def checkGUID(self):
-        if not self.read_test_cfg_cpp():
-            self.ui.GUID_input.setText('')
+        self.GUID = self.ui.GUID_input.text()
+        if not self.read_test_cfg_cpp('GUID'):
+            
+            self.ui.GUID_input.setText(self.pre_GUID)
 
     @Slot()
     def read_test_name(self):
@@ -366,9 +371,25 @@ EncFunc = ([a-zA-Z0-9_\-]*)
 FrameNum = ([a-zA-Z0-9_\-]*)
 ''', ''.join(lines))
             if pattern and len(pattern.groups()) == 15:
-                self.ui.Component_input.setText(pattern.group(1))
-                if pattern.group(1) != self.ui.lineEditComponent.text():
-                    self.ui.Component_input.setStyleSheet('QLineEdit {background-color: rgb(255, 255, 255);}')
+                if self.ui.lineEditComponent.text() != pattern.group(1):
+                    msgBox = QMessageBox()
+                    msgBox.setWindowTitle('Testname Error')
+                    msgBox.setInformativeText('Current Component %s is different from previous configuration: %s\n' %(self.ui.lineEditComponent.text(), pattern.group(1)))
+                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                    msgBox.setDefaultButton(QMessageBox.Cancel)
+                    buttonY = msgBox.button(QMessageBox.Ok)
+                    buttonY.setText('Rewrite')
+                    buttonN = msgBox.button(QMessageBox.Cancel)
+                    buttonN.setText('Discard')
+                    msgBox.exec_()
+                    self.activateWindow()
+                    if msgBox.clickedButton() == buttonN:
+                        self.ui.comboBoxComponent.setCurrentText(pattern.group(1))
+                        return
+                    if msgBox.clickedButton() == buttonY:
+                        self.ui.Component_input.setText(self.ui.lineEditComponent.text())
+                else:
+                    self.ui.Component_input.setText(pattern.group(1))
                 self.ui.GUID_input.setText(pattern.group(2))
                 self.ui.Width_input.setText(pattern.group(3))
                 self.ui.Height_input.setText(pattern.group(4))
@@ -550,6 +571,7 @@ FrameNum = ([a-zA-Z0-9_\-]*)
     @Slot()
     def show_command_info(self):
         self.form.ui.tableWidgetCmd.clearContents()
+        self.form.ui.tableWidgetCmd.setRowCount(0)
         self.form.setWindowTitle(self.test_name)
         tree = self.form.ui.treeWidgetCmd
         tree.clear()
@@ -660,7 +682,8 @@ FrameNum = ([a-zA-Z0-9_\-]*)
         else:
             ## check if platform is same with one testname
             # load previous info first
-            if not self.read_test_cfg_cpp():
+            if not self.read_test_cfg_cpp('platform'):
+                self.ui.comboBoxPlatform.setCurrentText(self.pre_platform)
                 return False
         self.ui.logBrowser.append('All the following output will be saved in workspace:\n%s\n'  %self.output_path)
         self.ringinfo_path = self.ui.lineEditRinginfoPath.text()
@@ -951,8 +974,7 @@ FrameNum = ([a-zA-Z0-9_\-]*)
             self.combine()
             self.ui.logBrowser.append("Generate input file: %s\n" %self.inputfilename)
             self.parse_command_file()
-            self.read_command_info_from_xml()
-            self.ui.tabWidget.setCurrentIndex(0)
+            self.read_command_info_from_xml()            
             self.form.showcmdlist()
         
     
@@ -982,7 +1004,7 @@ FrameNum = ([a-zA-Z0-9_\-]*)
             #wfd.write('<Header Component=%s  GUID=%s Width=%s Height=%s OutputFormat=%s>\n' % (self.Component, self.GUID, self.Width, self.Height, self.OutputFormat))
             wfd.write(f'''<Header>
 Component = {self.Component}
-GUID = DXVA2_Intel_LowpowerEncode_HEVC_Main
+GUID = {self.GUID}
 Width = {self.Width}
 Height = {self.Height}
 #{self.ui.comboBoxRawTT.currentText()}
@@ -1076,8 +1098,8 @@ FrameNum = {self.FrameNum}
                         break
 
                     if line.strip() == '};':
-                        if line[idx-1].strip() == '}':
-                            line[idx-1] = '    },\n'
+                        if lines[idx-1].strip() == '}':
+                            lines[idx-1] = '    },\n'
                         newlines = lines[:idx] + newlines + [line]
                         break
 
@@ -1143,7 +1165,7 @@ FrameNum = {self.FrameNum}
         else:
             return s
 
-    def read_test_cfg_cpp(self,  component='encode'):
+    def read_test_cfg_cpp(self, name, component='encode'):
         if component == 'encode':
             f_integrated_cfg_cpp = os.path.join(os.path.dirname(self.workspace), 'encode_integrated_test_cfg.cpp')
             with open(f_integrated_cfg_cpp, 'r') as fin:
@@ -1152,33 +1174,37 @@ FrameNum = {self.FrameNum}
                 
             idx = [idx for idx, line in enumerate(lines) if line.find(s0) != -1]
             if idx:
-                self.pre_platform = re.match('{"(.*)"}', lines[idx[0]+2]).group(1)
+                self.pre_platform = re.match('{"(.*)"}', lines[idx[0]+2].strip()).group(1)
                 self.pre_GUID = lines[idx[0]+3].strip()
                 fg = []
                 if self.pre_platform != self.platform:
                     fg.append(0)
-                if self.GUID and self.GUID != self.GUID:
+                if self.GUID and self.GUID != self.pre_GUID:
                     fg.append(1)
-                if fg:
-                    msgBox = QMessageBox()
-                    msgBox.setWindowTitle('Testname Error')
-                    text = ''
-                    if 0 in fg:
-                        text += 'Current platform %s is different from previous configuration: %s\n' %(self.platform, self.pre_platform)
-                    if 1 in fg:
-                        text += 'Current GUID %s is different from previous configuration: %s\n' %(self.GUID, self.GUID)
-                    msgBox.setInformativeText(text)
-                    msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-                    msgBox.setDefaultButton(QMessageBox.Cancel)
-                    buttonY = msgBox.button(QMessageBox.Ok)
-                    buttonY.setText('Rewrite')
-                    buttonN = msgBox.button(QMessageBox.Cancel)
-                    msgBox.exec_()
 
-                    if msgBox.clickedButton() == buttonY:
-                        return True
-                    elif msgBox.clickedButton() == buttonN:
-                        return False
+                if fg:
+                    text = ''
+                    if 1 in fg and name == 'GUID':
+                        text = 'Current GUID %s is different from previous configuration: %s\n' %(self.GUID, self.pre_GUID)
+                    elif 0 in fg and name == 'platform':
+                        text = 'Current platform %s is different from previous configuration: %s\n' %(self.platform, self.pre_platform)
+                    fg = [] #clear
+                    if text:
+                        msgBox = QMessageBox()
+                        msgBox.setWindowTitle('Testname Error')
+                        msgBox.setInformativeText(text)
+                        msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                        msgBox.setDefaultButton(QMessageBox.Cancel)
+                        buttonY = msgBox.button(QMessageBox.Ok)
+                        buttonY.setText('Rewrite')
+                        buttonN = msgBox.button(QMessageBox.Cancel)
+                        buttonN.setText('Discard')
+                        msgBox.exec_()
+                        self.activateWindow()
+                        if msgBox.clickedButton() == buttonY:
+                            return True
+                        elif msgBox.clickedButton() == buttonN:
+                            return False
      
         return True
 
@@ -1205,10 +1231,11 @@ class FormCommandInfo(QWidget):
         #used for loading cmdlist history
         self.pre_testname = ''
         self.pre_platform = ''
+        self.pre_platform1 = ''
+        self.pre_component = ''
         self.pre_ringinfopath = ''
         #
         self.ui.stackedWidget.setCurrentIndex(1)   #set the all infomation page as default page
-        self.ui.pushButtonSCL.clicked.connect(lambda : self.ui.stackedWidget.setCurrentIndex(1))  #show cmd name list
         self.ui.pushButtonSCL.clicked.connect(self.showcmdlist)  #show cmd name list
         self.ui.pushButtonSA.clicked.connect(lambda : self.ui.stackedWidget.setCurrentIndex(0))  #show cmd name list
         self.ui.pushButtonSU.clicked.connect(self.updateinfo)
@@ -1353,10 +1380,11 @@ class FormCommandInfo(QWidget):
         #print(self.main_window.obj.size_error)
 
         #not update case or modifycmd case
-        if self.main_window.ui.lineEditTestName == self.pre_testname and self.main_window.ui.lineEditPlatform == self.pre_platform and \
-           self.main_window.ui.lineEditRinginfoPath == self.pre_ringinfopath and not self.modifylist:
+        self.ui.stackedWidget.setCurrentIndex(1)
+        if self.main_window.ui.lineEditTestName == self.pre_testname and self.main_window.ui.lineEditPlatform == self.pre_platform1 and \
+           self.main_window.ui.lineEditRinginfoPath == self.pre_ringinfopath and self.main_window.ui.lineEditComponent == self.pre_component and \
+           not self.modifylist:
             return
-
 
         self.ui.tableWidgetCmdlist.clearContents()
         self.ui.tableWidgetCmdlist.setRowCount(0)
@@ -1388,9 +1416,10 @@ class FormCommandInfo(QWidget):
                 self.table.item(row, 0).setBackground(QColor(255, 242, 0))
             row += 1
 
-        self.pre_platform = self.main_window.ui.lineEditPlatform
-        self.pre_testname = self.main_window.ui.lineEditTestName
-        self.pre_ringinfopath = self.main_window.ui.lineEditRinginfoPath
+        self.pre_platform1 = self.main_window.ui.lineEditPlatform.text()
+        self.pre_testname = self.main_window.ui.lineEditTestName.text()
+        self.pre_ringinfopath = self.main_window.ui.lineEditRinginfoPath.text()
+        self.pre_component = self.main_window.ui.lineEditComponent.text()
         self.cmdlistrow = row
         self.table.resizeColumnsToContents()
         self.table.resizeRowsToContents()
